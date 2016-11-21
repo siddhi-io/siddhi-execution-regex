@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c)  2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,10 +16,8 @@
  * under the License.
  */
 
-package org.wso2.siddhi.extension.regex;
+package org.wso2.extension.siddhi.execution.regex;
 
-
-import org.apache.log4j.Logger;
 import org.wso2.siddhi.core.config.ExecutionPlanContext;
 import org.wso2.siddhi.core.exception.ExecutionPlanRuntimeException;
 import org.wso2.siddhi.core.executor.ConstantExpressionExecutor;
@@ -32,18 +30,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * lookingAt(regex, inputSequence)
- * This method attempts to match the 'inputSequence', starting at the beginning, against the 'regex' pattern.
+ * group(regex, inputSequence, groupId)
+ * This method returns the input sub-sequence captured by the given group during the previous match operation.
  * regex - regular expression. eg: "\d\d(.*)WSO2"
  * inputSequence - input sequence to be matched with the regular expression eg: "21 products are produced by WSO2 currently"
- * Accept Type(s) for lookingAt(regex, inputSequence);
+ * groupId - the given group id of the regex expression eg: 0, 1, 2, etc.
+ * Accept Type(s) for group(regex, inputSequence, groupId);
  *         regex : STRING
  *         inputSequence : STRING
- * Return Type(s): BOOLEAN
+ *         groupId : INT
+ * Return Type(s): STRING
  */
-public class LookingAtFunctionExtension extends FunctionExecutor {
-    Attribute.Type returnType = Attribute.Type.BOOL;
-    private final static Logger log = Logger.getLogger(LookingAtFunctionExtension.class);
+public class GroupFunctionExtension extends FunctionExecutor {
+    Attribute.Type returnType = Attribute.Type.STRING;
 
     //state-variables
     private boolean isRegexConstant = false;
@@ -52,17 +51,21 @@ public class LookingAtFunctionExtension extends FunctionExecutor {
 
     @Override
     protected void init(ExpressionExecutor[] attributeExpressionExecutors, ExecutionPlanContext executionPlanContext) {
-        if (attributeExpressionExecutors.length != 2) {
-            throw new ExecutionPlanValidationException("Invalid no of arguments passed to regex:lookingAt() function, required 2, " +
-                                                       "but found " + attributeExpressionExecutors.length);
+        if (attributeExpressionExecutors.length != 3) {
+            throw new ExecutionPlanValidationException("Invalid no of arguments passed to regex:group() function, required 3, " +
+                    "but found " + attributeExpressionExecutors.length);
         }
         if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
-            throw new ExecutionPlanValidationException("Invalid parameter type found for the first argument of regex:lookingAt() function, " +
-                                                       "required "+Attribute.Type.STRING+", but found "+attributeExpressionExecutors[0].getReturnType().toString());
+            throw new ExecutionPlanValidationException("Invalid parameter type found for the first argument of str:group() function, " +
+                    "required "+Attribute.Type.STRING+", but found "+attributeExpressionExecutors[0].getReturnType().toString());
         }
         if (attributeExpressionExecutors[1].getReturnType() != Attribute.Type.STRING) {
-            throw new ExecutionPlanValidationException("Invalid parameter type found for the second argument of regex:lookingAt() function, " +
-                                                       "required "+Attribute.Type.STRING+", but found "+attributeExpressionExecutors[1].getReturnType().toString());
+            throw new ExecutionPlanValidationException("Invalid parameter type found for the second argument of str:group() function, " +
+                    "required "+Attribute.Type.STRING+", but found "+attributeExpressionExecutors[1].getReturnType().toString());
+        }
+        if (attributeExpressionExecutors[2].getReturnType() != Attribute.Type.INT) {
+            throw new ExecutionPlanValidationException("Invalid parameter type found for the third argument of str:group() function, " +
+                    "required "+Attribute.Type.INT+", but found "+attributeExpressionExecutors[1].getReturnType().toString());
         }
         if(attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor){
             isRegexConstant = true;
@@ -78,41 +81,51 @@ public class LookingAtFunctionExtension extends FunctionExecutor {
         Matcher matcher;
 
         if (data[0] == null) {
-            throw new ExecutionPlanRuntimeException("Invalid input given to regex:lookingAt() function. First argument cannot be null");
+            throw new ExecutionPlanRuntimeException("Invalid input given to regex:group() function. First argument cannot be null");
         }
         if (data[1] == null) {
-            if(log.isDebugEnabled()){
-                log.warn("Invalid input given to regex:lookingAt() function. Second argument cannot be null, returning false");
-            }
-            return false;
+            throw new ExecutionPlanRuntimeException("Invalid input given to regex:group() function. Second argument cannot be null");
+        }
+        if (data[2] == null) {
+            throw new ExecutionPlanRuntimeException("Invalid input given to regex:group() function. Third argument cannot be null");
         }
         String source = (String) data[1];
+        int groupId;
+        try{
+            groupId = (Integer) data[2];
+        }catch(ClassCastException ex){
+            throw new ExecutionPlanRuntimeException("Invalid input given to regex:group() function. Third argument should be an integer");
+        }
 
         if(!isRegexConstant){
             regex = (String) data[0];
             pattern = Pattern.compile(regex);
             matcher = pattern.matcher(source);
-            return matcher.lookingAt();
-
         } else {
             matcher = patternConstant.matcher(source);
-            return matcher.lookingAt();
+        }
+
+        if (matcher.find() && groupId<=matcher.groupCount()){
+            return matcher.group(groupId);
+        }else{
+            //cannot terminate the event flow by throwing an exception just because a particular event might not contain a matching group
+            return null;
         }
     }
 
     @Override
     protected Object execute(Object data) {
-        return null;  //Since the lookingAt function takes in 2 parameters, this method does not get called. Hence, not implemented.
+        return null;//Since the group function takes in 3 parameters, this method does not get called. Hence, not implemented.
     }
 
     @Override
     public void start() {
-        //Nothing to start
+
     }
 
     @Override
     public void stop() {
-        //Nothing to stop
+
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c)  2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,9 +16,8 @@
  * under the License.
  */
 
+package org.wso2.extension.siddhi.execution.regex;
 
-
-package org.wso2.siddhi.extension.regex;
 
 import org.apache.log4j.Logger;
 import org.wso2.siddhi.core.config.ExecutionPlanContext;
@@ -33,19 +32,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * matches(regex, inputSequence)
- * This method attempts to match the entire 'inputSequence' against the 'regex' pattern.
+ * lookingAt(regex, inputSequence)
+ * This method attempts to match the 'inputSequence', starting at the beginning, against the 'regex' pattern.
  * regex - regular expression. eg: "\d\d(.*)WSO2"
  * inputSequence - input sequence to be matched with the regular expression eg: "21 products are produced by WSO2 currently"
- * Accept Type(s) for matches(regex, inputSequence);
+ * Accept Type(s) for lookingAt(regex, inputSequence);
  *         regex : STRING
  *         inputSequence : STRING
  * Return Type(s): BOOLEAN
  */
-public class MatchesFunctionExtension extends FunctionExecutor{
-
+public class LookingAtFunctionExtension extends FunctionExecutor {
     Attribute.Type returnType = Attribute.Type.BOOL;
-    private final static Logger log = Logger.getLogger(MatchesFunctionExtension.class);
+    private final static Logger log = Logger.getLogger(LookingAtFunctionExtension.class);
 
     //state-variables
     private boolean isRegexConstant = false;
@@ -55,15 +53,15 @@ public class MatchesFunctionExtension extends FunctionExecutor{
     @Override
     protected void init(ExpressionExecutor[] attributeExpressionExecutors, ExecutionPlanContext executionPlanContext) {
         if (attributeExpressionExecutors.length != 2) {
-            throw new ExecutionPlanValidationException("Invalid no of arguments passed to regex:matches() function, required 2, " +
+            throw new ExecutionPlanValidationException("Invalid no of arguments passed to regex:lookingAt() function, required 2, " +
                                                        "but found " + attributeExpressionExecutors.length);
         }
         if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
-            throw new ExecutionPlanValidationException("Invalid parameter type found for the first argument of regex:matches() function, " +
+            throw new ExecutionPlanValidationException("Invalid parameter type found for the first argument of regex:lookingAt() function, " +
                                                        "required "+Attribute.Type.STRING+", but found "+attributeExpressionExecutors[0].getReturnType().toString());
         }
         if (attributeExpressionExecutors[1].getReturnType() != Attribute.Type.STRING) {
-            throw new ExecutionPlanValidationException("Invalid parameter type found for the second argument of regex:matches() function, " +
+            throw new ExecutionPlanValidationException("Invalid parameter type found for the second argument of regex:lookingAt() function, " +
                                                        "required "+Attribute.Type.STRING+", but found "+attributeExpressionExecutors[1].getReturnType().toString());
         }
         if(attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor){
@@ -80,11 +78,11 @@ public class MatchesFunctionExtension extends FunctionExecutor{
         Matcher matcher;
 
         if (data[0] == null) {
-            throw new ExecutionPlanRuntimeException("Invalid input given to regex:matches() function. First argument cannot be null");
+            throw new ExecutionPlanRuntimeException("Invalid input given to regex:lookingAt() function. First argument cannot be null");
         }
         if (data[1] == null) {
             if(log.isDebugEnabled()){
-                log.warn("Invalid input given to regex:matches() function. Second argument cannot be null, returning false");
+                log.warn("Invalid input given to regex:lookingAt() function. Second argument cannot be null, returning false");
             }
             return false;
         }
@@ -94,17 +92,17 @@ public class MatchesFunctionExtension extends FunctionExecutor{
             regex = (String) data[0];
             pattern = Pattern.compile(regex);
             matcher = pattern.matcher(source);
-            return matcher.matches();
+            return matcher.lookingAt();
 
         } else {
             matcher = patternConstant.matcher(source);
-            return matcher.matches();
+            return matcher.lookingAt();
         }
     }
 
     @Override
     protected Object execute(Object data) {
-        return null;  //Since the matches function takes in 2 parameters, this method does not get called. Hence, not implemented.
+        return null;  //Since the lookingAt function takes in 2 parameters, this method does not get called. Hence, not implemented.
     }
 
     @Override
