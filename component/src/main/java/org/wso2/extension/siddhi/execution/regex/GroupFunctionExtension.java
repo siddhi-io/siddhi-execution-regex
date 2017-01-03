@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
  * Return Type(s): STRING
  */
 public class GroupFunctionExtension extends FunctionExecutor {
-    Attribute.Type returnType = Attribute.Type.STRING;
+    private Attribute.Type returnType = Attribute.Type.STRING;
 
     //state-variables
     private boolean isRegexConstant = false;
@@ -56,18 +56,21 @@ public class GroupFunctionExtension extends FunctionExecutor {
                     "but found " + attributeExpressionExecutors.length);
         }
         if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
-            throw new ExecutionPlanValidationException("Invalid parameter type found for the first argument of str:group() function, " +
-                    "required "+Attribute.Type.STRING+", but found "+attributeExpressionExecutors[0].getReturnType().toString());
+            throw new ExecutionPlanValidationException("Invalid parameter type found for the first argument of " +
+                    "str:group() function, " + "required " + Attribute.Type.STRING + ", but found " +
+                    attributeExpressionExecutors[0].getReturnType().toString());
         }
         if (attributeExpressionExecutors[1].getReturnType() != Attribute.Type.STRING) {
-            throw new ExecutionPlanValidationException("Invalid parameter type found for the second argument of str:group() function, " +
-                    "required "+Attribute.Type.STRING+", but found "+attributeExpressionExecutors[1].getReturnType().toString());
+            throw new ExecutionPlanValidationException("Invalid parameter type found for the second argument of " +
+                    "str:group() function, " + "required " + Attribute.Type.STRING + ", but found " +
+                    attributeExpressionExecutors[1].getReturnType().toString());
         }
         if (attributeExpressionExecutors[2].getReturnType() != Attribute.Type.INT) {
-            throw new ExecutionPlanValidationException("Invalid parameter type found for the third argument of str:group() function, " +
-                    "required "+Attribute.Type.INT+", but found "+attributeExpressionExecutors[1].getReturnType().toString());
+            throw new ExecutionPlanValidationException("Invalid parameter type found for the third argument of " +
+                    "str:group() function, " + "required " + Attribute.Type.INT + ", but found " +
+                    attributeExpressionExecutors[1].getReturnType().toString());
         }
-        if(attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor){
+        if (attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor) {
             isRegexConstant = true;
             regexConstant = (String) ((ConstantExpressionExecutor) attributeExpressionExecutors[0]).getValue();
             patternConstant = Pattern.compile(regexConstant);
@@ -91,13 +94,13 @@ public class GroupFunctionExtension extends FunctionExecutor {
         }
         String source = (String) data[1];
         int groupId;
-        try{
+        try {
             groupId = (Integer) data[2];
-        }catch(ClassCastException ex){
+        } catch (ClassCastException ex) {
             throw new ExecutionPlanRuntimeException("Invalid input given to regex:group() function. Third argument should be an integer");
         }
 
-        if(!isRegexConstant){
+        if (!isRegexConstant) {
             regex = (String) data[0];
             pattern = Pattern.compile(regex);
             matcher = pattern.matcher(source);
@@ -105,9 +108,9 @@ public class GroupFunctionExtension extends FunctionExecutor {
             matcher = patternConstant.matcher(source);
         }
 
-        if (matcher.find() && groupId<=matcher.groupCount()){
+        if (matcher.find() && groupId <= matcher.groupCount()) {
             return matcher.group(groupId);
-        }else{
+        } else {
             //cannot terminate the event flow by throwing an exception just because a particular event might not contain a matching group
             return null;
         }

@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
  * Return Type(s): BOOLEAN
  */
 public class FindFunctionExtension extends FunctionExecutor {
-    Attribute.Type returnType = Attribute.Type.BOOL;
+    private Attribute.Type returnType = Attribute.Type.BOOL;
     private final static Logger log = Logger.getLogger(FindFunctionExtension.class);
 
     //state-variables
@@ -57,27 +57,30 @@ public class FindFunctionExtension extends FunctionExecutor {
 
     @Override
     protected void init(ExpressionExecutor[] attributeExpressionExecutors, ExecutionPlanContext executionPlanContext) {
-        if (attributeExpressionExecutors.length != 2 && attributeExpressionExecutors.length != 3){
-            throw new ExecutionPlanValidationException("Invalid no of arguments passed to regex:find() function, required 2 or 3, " +
-                                                       "but found " + attributeExpressionExecutors.length);
-        }else{
+        if (attributeExpressionExecutors.length != 2 && attributeExpressionExecutors.length != 3) {
+            throw new ExecutionPlanValidationException("Invalid no of arguments passed to regex:find() function, " +
+                    "required 2 or 3, " + "but found " + attributeExpressionExecutors.length);
+        } else {
             if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
-                throw new ExecutionPlanValidationException("Invalid parameter type found for the first argument of regex:find() function, " +
-                                                           "required "+Attribute.Type.STRING+", but found "+attributeExpressionExecutors[0].getReturnType().toString());
+                throw new ExecutionPlanValidationException("Invalid parameter type found for the first argument of " +
+                        "regex:find() function, " + "required " + Attribute.Type.STRING + ", but found " +
+                        attributeExpressionExecutors[0].getReturnType().toString());
             }
             if (attributeExpressionExecutors[1].getReturnType() != Attribute.Type.STRING) {
-                throw new ExecutionPlanValidationException("Invalid parameter type found for the second argument of regex:find() function, " +
-                                                           "required " + Attribute.Type.STRING + ", but found " + attributeExpressionExecutors[1].getReturnType().toString());
+                throw new ExecutionPlanValidationException("Invalid parameter type found for the second argument of " +
+                        "regex:find() function, " + "required " + Attribute.Type.STRING + ", but found " +
+                        attributeExpressionExecutors[1].getReturnType().toString());
             }
-            if (attributeExpressionExecutors.length == 3){
+            if (attributeExpressionExecutors.length == 3) {
                 if (attributeExpressionExecutors[2].getReturnType() != Attribute.Type.INT) {
-                    throw new ExecutionPlanValidationException("Invalid parameter type found for the third argument of str:find() function, " +
-                                                               "required "+Attribute.Type.INT+", but found "+attributeExpressionExecutors[1].getReturnType().toString());
+                    throw new ExecutionPlanValidationException("Invalid parameter type found for the third argument of " +
+                            "str:find() function, " + "required " + Attribute.Type.INT + ", but found " +
+                            attributeExpressionExecutors[1].getReturnType().toString());
                 }
             }
         }
 
-        if(attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor){
+        if (attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor) {
             isRegexConstant = true;
             regexConstant = (String) ((ConstantExpressionExecutor) attributeExpressionExecutors[0]).getValue();
             patternConstant = Pattern.compile(regexConstant);
@@ -94,7 +97,7 @@ public class FindFunctionExtension extends FunctionExecutor {
             throw new ExecutionPlanRuntimeException("Invalid input given to regex:find() function. First argument cannot be null");
         }
         if (data[1] == null) {
-            if(log.isDebugEnabled()){
+            if (log.isDebugEnabled()) {
                 log.warn("Invalid input given to regex:find() function. Second argument cannot be null, returning false");
             }
             return false;
@@ -102,7 +105,7 @@ public class FindFunctionExtension extends FunctionExecutor {
 
         String source = (String) data[1];
 
-        if(!isRegexConstant){
+        if (!isRegexConstant) {
             regex = (String) data[0];
             pattern = Pattern.compile(regex);
             matcher = pattern.matcher(source);
@@ -113,20 +116,21 @@ public class FindFunctionExtension extends FunctionExecutor {
         }
 
 
-        if(data.length == 2){
+        if (data.length == 2) {
             return matcher.find();
-        }else{
+        } else {
             if (data[2] == null) {
-                if(log.isDebugEnabled()){
+                if (log.isDebugEnabled()) {
                     log.warn("Invalid input given to regex:find() function. Second argument cannot be null, returning false");
                 }
                 return false;
             }
             int startingIndex;
-            try{
+            try {
                 startingIndex = (Integer) data[2];
-            }catch(ClassCastException ex){
-                throw new ExecutionPlanRuntimeException("Invalid input given to regex:group() function. Third argument should be an integer");
+            } catch (ClassCastException ex) {
+                throw new ExecutionPlanRuntimeException("Invalid input given to regex:group() function. " +
+                        "Third argument should be an integer");
             }
             return matcher.find(startingIndex);
         }

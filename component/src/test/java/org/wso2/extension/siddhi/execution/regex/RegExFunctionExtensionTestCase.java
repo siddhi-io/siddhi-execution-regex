@@ -30,7 +30,7 @@ import org.wso2.siddhi.core.stream.input.InputHandler;
 import org.wso2.siddhi.core.util.EventPrinter;
 
 public class RegExFunctionExtensionTestCase {
-    static final Logger log = Logger.getLogger(RegExFunctionExtensionTestCase.class);
+    private static final Logger log = Logger.getLogger(RegExFunctionExtensionTestCase.class);
     private volatile int count;
     private volatile boolean eventArrived;
 
@@ -118,14 +118,17 @@ public class RegExFunctionExtensionTestCase {
 
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("inputStream");
         executionPlanRuntime.start();
-        inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees", 60.5f, "\\d\\d(.*)WSO2", 30});
-        inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees", 60.5f, "\\d\\d(.*)WSO2", 35});
+        inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees",
+                60.5f, "\\d\\d(.*)WSO2", 30});
+        inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees",
+                60.5f, "\\d\\d(.*)WSO2", 35});
 
         Thread.sleep(100);
         Assert.assertEquals(2, count);
         Assert.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
+
     @Test
     public void testMatchesFunctionExtension() throws InterruptedException {
         log.info("MatchesFunctionExtension TestCase");
@@ -161,8 +164,10 @@ public class RegExFunctionExtensionTestCase {
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("inputStream");
         executionPlanRuntime.start();
         inputHandler.send(new Object[]{"21 products are produced by WSO2 currently", 60.5f, "\\d\\d(.*)WSO2"});
-        inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f, "WSO2(.*)middleware(.*)"});
-        inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f, "WSO2(.*)middleware"});
+        inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f,
+                "WSO2(.*)middleware(.*)"});
+        inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f,
+                "WSO2(.*)middleware"});
         Thread.sleep(100);
         Assert.assertEquals(3, count);
         Assert.assertTrue(eventArrived);
@@ -204,7 +209,8 @@ public class RegExFunctionExtensionTestCase {
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("inputStream");
         executionPlanRuntime.start();
         inputHandler.send(new Object[]{"21 products are produced by WSO2 currently in Sri Lanka", 60.5f, "\\d\\d(.*)WSO2"});
-        inputHandler.send(new Object[]{"sample test string and WSO2 is situated in trace and its a middleware company", 60.5f, "WSO2(.*)middleware(.*)"});
+        inputHandler.send(new Object[]{"sample test string and WSO2 is situated in trace and its a middleware company",
+                60.5f, "WSO2(.*)middleware(.*)"});
         inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f, "WSO2(.*)middleware"});
         Thread.sleep(100);
         Assert.assertEquals(3, count);
@@ -249,8 +255,10 @@ public class RegExFunctionExtensionTestCase {
 
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("inputStream");
         executionPlanRuntime.start();
-        inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees", 60.5f, "(\\d\\d)(.*)(WSO2.*)", 3});
-        inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees", 60.5f, "(\\d\\d)(.*)(WSO2.*)", 1});
+        inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees",
+                60.5f, "(\\d\\d)(.*)(WSO2.*)", 3});
+        inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees",
+                60.5f, "(\\d\\d)(.*)(WSO2.*)", 1});
         inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f, "WSO2(.*)middleware", 1});
         inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f, "WSO2(.*)middleware", 2});
         Thread.sleep(100);
