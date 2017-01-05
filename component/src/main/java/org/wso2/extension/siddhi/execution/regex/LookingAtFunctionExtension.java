@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
  * Return Type(s): BOOLEAN
  */
 public class LookingAtFunctionExtension extends FunctionExecutor {
-    Attribute.Type returnType = Attribute.Type.BOOL;
+    private Attribute.Type returnType = Attribute.Type.BOOL;
     private final static Logger log = Logger.getLogger(LookingAtFunctionExtension.class);
 
     //state-variables
@@ -53,18 +53,20 @@ public class LookingAtFunctionExtension extends FunctionExecutor {
     @Override
     protected void init(ExpressionExecutor[] attributeExpressionExecutors, ExecutionPlanContext executionPlanContext) {
         if (attributeExpressionExecutors.length != 2) {
-            throw new ExecutionPlanValidationException("Invalid no of arguments passed to regex:lookingAt() function, required 2, " +
-                                                       "but found " + attributeExpressionExecutors.length);
+            throw new ExecutionPlanValidationException("Invalid no of arguments passed to regex:lookingAt() function, " +
+                    "required 2, " + "but found " + attributeExpressionExecutors.length);
         }
         if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
-            throw new ExecutionPlanValidationException("Invalid parameter type found for the first argument of regex:lookingAt() function, " +
-                                                       "required "+Attribute.Type.STRING+", but found "+attributeExpressionExecutors[0].getReturnType().toString());
+            throw new ExecutionPlanValidationException("Invalid parameter type found for the first argument of " +
+                    "regex:lookingAt() function, " + "required " + Attribute.Type.STRING + ", but found " +
+                    attributeExpressionExecutors[0].getReturnType().toString());
         }
         if (attributeExpressionExecutors[1].getReturnType() != Attribute.Type.STRING) {
-            throw new ExecutionPlanValidationException("Invalid parameter type found for the second argument of regex:lookingAt() function, " +
-                                                       "required "+Attribute.Type.STRING+", but found "+attributeExpressionExecutors[1].getReturnType().toString());
+            throw new ExecutionPlanValidationException("Invalid parameter type found for the second argument of " +
+                    "regex:lookingAt() function, " + "required " + Attribute.Type.STRING + ", but found " +
+                    attributeExpressionExecutors[1].getReturnType().toString());
         }
-        if(attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor){
+        if (attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor) {
             isRegexConstant = true;
             regexConstant = (String) ((ConstantExpressionExecutor) attributeExpressionExecutors[0]).getValue();
             patternConstant = Pattern.compile(regexConstant);
@@ -78,17 +80,19 @@ public class LookingAtFunctionExtension extends FunctionExecutor {
         Matcher matcher;
 
         if (data[0] == null) {
-            throw new ExecutionPlanRuntimeException("Invalid input given to regex:lookingAt() function. First argument cannot be null");
+            throw new ExecutionPlanRuntimeException("Invalid input given to regex:lookingAt() function. " +
+                    "First argument cannot be null");
         }
         if (data[1] == null) {
-            if(log.isDebugEnabled()){
-                log.warn("Invalid input given to regex:lookingAt() function. Second argument cannot be null, returning false");
+            if (log.isDebugEnabled()) {
+                log.warn("Invalid input given to regex:lookingAt() function. Second argument cannot be null, " +
+                        "returning false");
             }
             return false;
         }
         String source = (String) data[1];
 
-        if(!isRegexConstant){
+        if (!isRegexConstant) {
             regex = (String) data[0];
             pattern = Pattern.compile(regex);
             matcher = pattern.matcher(source);
