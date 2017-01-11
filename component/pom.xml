@@ -71,7 +71,6 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Export-Package>
-                            org.wso2.extension.siddhi.execution.regex,
                             org.wso2.extension.siddhi.execution.regex.*
                         </Export-Package>
                         <Import-Package>
