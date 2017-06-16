@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c)  2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -18,29 +18,68 @@
 
 package org.wso2.extension.siddhi.execution.regex;
 
-import org.wso2.siddhi.core.config.ExecutionPlanContext;
-import org.wso2.siddhi.core.exception.ExecutionPlanRuntimeException;
+import org.wso2.siddhi.annotation.Example;
+import org.wso2.siddhi.annotation.Extension;
+import org.wso2.siddhi.annotation.Parameter;
+import org.wso2.siddhi.annotation.ReturnAttribute;
+import org.wso2.siddhi.annotation.util.DataType;
+import org.wso2.siddhi.core.config.SiddhiAppContext;
+import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
 import org.wso2.siddhi.core.executor.ConstantExpressionExecutor;
 import org.wso2.siddhi.core.executor.ExpressionExecutor;
 import org.wso2.siddhi.core.executor.function.FunctionExecutor;
+import org.wso2.siddhi.core.util.config.ConfigReader;
 import org.wso2.siddhi.query.api.definition.Attribute;
-import org.wso2.siddhi.query.api.exception.ExecutionPlanValidationException;
+import org.wso2.siddhi.query.api.exception.SiddhiAppValidationException;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * group(regex, inputSequence, groupId)
+ * group(regex, input.sequence, group.id)
  * This method returns the input sub-sequence captured by the given group during the previous match operation.
  * regex - regular expression. eg: "\d\d(.*)WSO2"
- * inputSequence - input sequence to be matched with the regular expression eg: "21 products are produced by WSO2 currently"
- * groupId - the given group id of the regex expression eg: 0, 1, 2, etc.
- * Accept Type(s) for group(regex, inputSequence, groupId);
- *         regex : STRING
- *         inputSequence : STRING
- *         groupId : INT
+ * inputSequence - input sequence to be matched with the regular expression eg: "21 products are produced by WSO2
+ * currently group.id - the given group id of the regex expression eg: 0, 1, 2, etc.
+ * Accept Type(s) for group(regex, input.sequence, group.id);
+ * regex : STRING
+ * input.sequence : STRING
+ * group.id : INT
  * Return Type(s): STRING
  */
+
+/**
+ * Class representing the Regex Group implementation.
+ */
+@Extension(
+        name = "group",
+        namespace = "regex",
+        description = "This method returns the input sub-sequence captured by the given group during the previous " +
+                      "match operation.",
+        parameters = {
+                @Parameter(name = "regex",
+                        description = "regular expression. eg: \"\\d\\d(.*)WSO2.",
+                        type = {DataType.STRING}),
+                @Parameter(name = "input.sequence",
+                        description = "input sequence to be matched with the regular expression eg: \"21 products are" +
+                                      " produced by WSO2.",
+                        type = {DataType.STRING}),
+                @Parameter(name = "group.id",
+                        description = "the given group id of the regex expression eg: 0, 1, 2, etc.",
+                        type = {DataType.INT})
+        },
+        returnAttributes = @ReturnAttribute(
+                description = "Returned type will be string.",
+                type = {DataType.STRING}),
+        examples = {
+                @Example(
+                        syntax = "TBD",
+                        description = "TBD"
+                )
+        }
+)
 public class GroupFunctionExtension extends FunctionExecutor {
     private Attribute.Type returnType = Attribute.Type.STRING;
 
@@ -50,25 +89,29 @@ public class GroupFunctionExtension extends FunctionExecutor {
     private Pattern patternConstant;
 
     @Override
-    protected void init(ExpressionExecutor[] attributeExpressionExecutors, ExecutionPlanContext executionPlanContext) {
+    protected void init(ExpressionExecutor[] expressionExecutors, ConfigReader configReader,
+                        SiddhiAppContext siddhiAppContext) {
         if (attributeExpressionExecutors.length != 3) {
-            throw new ExecutionPlanValidationException("Invalid no of arguments passed to regex:group() function, required 3, " +
-                    "but found " + attributeExpressionExecutors.length);
+            throw new SiddhiAppValidationException("Invalid no of arguments passed to regex:group() function, " +
+                                                   "required 3, but found " + attributeExpressionExecutors.length);
         }
         if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
-            throw new ExecutionPlanValidationException("Invalid parameter type found for the first argument of " +
-                    "str:group() function, " + "required " + Attribute.Type.STRING + ", but found " +
-                    attributeExpressionExecutors[0].getReturnType().toString());
+            throw new SiddhiAppValidationException("Invalid parameter type found for the first argument of " +
+                                                   "str:group() function, " + "required " + Attribute.Type.STRING +
+                                                   ", but found " +
+                                                   attributeExpressionExecutors[0].getReturnType().toString());
         }
         if (attributeExpressionExecutors[1].getReturnType() != Attribute.Type.STRING) {
-            throw new ExecutionPlanValidationException("Invalid parameter type found for the second argument of " +
-                    "str:group() function, " + "required " + Attribute.Type.STRING + ", but found " +
-                    attributeExpressionExecutors[1].getReturnType().toString());
+            throw new SiddhiAppValidationException("Invalid parameter type found for the second argument of " +
+                                                   "str:group() function, " + "required " + Attribute.Type.STRING +
+                                                   ", but found " +
+                                                   attributeExpressionExecutors[1].getReturnType().toString());
         }
         if (attributeExpressionExecutors[2].getReturnType() != Attribute.Type.INT) {
-            throw new ExecutionPlanValidationException("Invalid parameter type found for the third argument of " +
-                    "str:group() function, " + "required " + Attribute.Type.INT + ", but found " +
-                    attributeExpressionExecutors[1].getReturnType().toString());
+            throw new SiddhiAppValidationException("Invalid parameter type found for the third argument of " +
+                                                   "str:group() function, " + "required " + Attribute.Type.INT +
+                                                   ", but found " +
+                                                   attributeExpressionExecutors[1].getReturnType().toString());
         }
         if (attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor) {
             isRegexConstant = true;
@@ -84,20 +127,24 @@ public class GroupFunctionExtension extends FunctionExecutor {
         Matcher matcher;
 
         if (data[0] == null) {
-            throw new ExecutionPlanRuntimeException("Invalid input given to regex:group() function. First argument cannot be null");
+            throw new SiddhiAppRuntimeException("Invalid input given to regex:group() function. First argument " +
+                                                "cannot be null");
         }
         if (data[1] == null) {
-            throw new ExecutionPlanRuntimeException("Invalid input given to regex:group() function. Second argument cannot be null");
+            throw new SiddhiAppRuntimeException("Invalid input given to regex:group() function. Second " +
+                                                "argument cannot be null");
         }
         if (data[2] == null) {
-            throw new ExecutionPlanRuntimeException("Invalid input given to regex:group() function. Third argument cannot be null");
+            throw new SiddhiAppRuntimeException("Invalid input given to regex:group() function. Third " +
+                                                "argument cannot be null");
         }
         String source = (String) data[1];
         int groupId;
         try {
             groupId = (Integer) data[2];
         } catch (ClassCastException ex) {
-            throw new ExecutionPlanRuntimeException("Invalid input given to regex:group() function. Third argument should be an integer");
+            throw new SiddhiAppRuntimeException("Invalid input given to regex:group() function. " +
+                                                "Third argument should be an integer");
         }
 
         if (!isRegexConstant) {
@@ -111,14 +158,16 @@ public class GroupFunctionExtension extends FunctionExecutor {
         if (matcher.find() && groupId <= matcher.groupCount()) {
             return matcher.group(groupId);
         } else {
-            //cannot terminate the event flow by throwing an exception just because a particular event might not contain a matching group
+            //cannot terminate the event flow by throwing an exception just because a particular
+            // event might not contain a matching group
             return null;
         }
     }
 
     @Override
     protected Object execute(Object data) {
-        return null;//Since the group function takes in 3 parameters, this method does not get called. Hence, not implemented.
+        return null; //Since the group function takes in 3 parameters, this method does not
+        // get called. Hence, not implemented.
     }
 
     @Override
@@ -137,14 +186,20 @@ public class GroupFunctionExtension extends FunctionExecutor {
     }
 
     @Override
-    public Object[] currentState() {
-        return new Object[]{isRegexConstant, regexConstant, patternConstant};
+    public Map<String, Object> currentState() {
+        return new HashMap<String, Object>() {
+            {
+                put("isRegexConstant", isRegexConstant);
+                put("regexConstant", regexConstant);
+                put("patternConstant", patternConstant);
+            }
+        };
     }
 
     @Override
-    public void restoreState(Object[] state) {
-        isRegexConstant = (Boolean) state[0];
-        regexConstant = (String) state[1];
-        patternConstant = (Pattern) state[2];
+    public void restoreState(Map<String, Object> state) {
+        isRegexConstant = (Boolean) state.get("isRegexConstant");
+        regexConstant = (String) state.get("regexConstant");
+        patternConstant = (Pattern) state.get("patternConstant");
     }
 }
