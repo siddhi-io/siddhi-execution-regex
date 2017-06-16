@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c)  2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -18,23 +18,24 @@
 
 package org.wso2.extension.siddhi.execution.regex;
 
-import junit.framework.Assert;
 import org.apache.log4j.Logger;
-import org.junit.Before;
-import org.junit.Test;
-import org.wso2.siddhi.core.ExecutionPlanRuntime;
+import org.testng.AssertJUnit;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import org.wso2.siddhi.core.SiddhiAppRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.core.query.output.callback.QueryCallback;
 import org.wso2.siddhi.core.stream.input.InputHandler;
 import org.wso2.siddhi.core.util.EventPrinter;
 
+
 public class RegExFunctionExtensionTestCase {
     private static final Logger log = Logger.getLogger(RegExFunctionExtensionTestCase.class);
     private volatile int count;
     private volatile boolean eventArrived;
 
-    @Before
+    @BeforeMethod
     public void init() {
         count = 0;
         eventArrived = false;
@@ -47,10 +48,11 @@ public class RegExFunctionExtensionTestCase {
 
         String inStreamDefinition = "define stream inputStream (symbol string, price long, regex string);";
         String query = ("@info(name = 'query1') " +
-                "from inputStream " +
-                "select symbol , regex:find(regex, symbol) as aboutWSO2 " +
-                "insert into outputStream;");
-        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(inStreamDefinition + query);
+                        "from inputStream " +
+                        "select symbol , regex:find(regex, symbol) as aboutWSO2 " +
+                        "insert into outputStream;");
+        SiddhiAppRuntime executionPlanRuntime =
+                siddhiManager.createSiddhiAppRuntime(inStreamDefinition + query);
 
         executionPlanRuntime.addCallback("query1", new QueryCallback() {
             @Override
@@ -59,16 +61,16 @@ public class RegExFunctionExtensionTestCase {
                 for (Event inEvent : inEvents) {
                     count++;
                     if (count == 1) {
-                        Assert.assertEquals(true, inEvent.getData(1));
+                        AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
                     if (count == 2) {
-                        Assert.assertEquals(true, inEvent.getData(1));
+                        AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
                     if (count == 3) {
-                        Assert.assertEquals(true, inEvent.getData(1));
+                        AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
                     if (count == 4) {
-                        Assert.assertEquals(false, inEvent.getData(1));
+                        AssertJUnit.assertEquals(false, inEvent.getData(1));
                     }
                     eventArrived = true;
                 }
@@ -78,12 +80,14 @@ public class RegExFunctionExtensionTestCase {
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("inputStream");
         executionPlanRuntime.start();
         inputHandler.send(new Object[]{"21 products are produced by WSO2 currently", 60.5f, "\\d\\d(.*)WSO2"});
-        inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f, "WSO2(.*)middleware(.*)"});
-        inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f, "WSO2(.*)middleware"});
+        inputHandler.send(new Object[]{"WSO2 is situated in trace and its a " +
+                                       "middleware company", 60.5f, "WSO2(.*)middleware(.*)"});
+        inputHandler.send(new Object[]{"WSO2 is situated in trace and its a " +
+                                       "middleware company", 60.5f, "WSO2(.*)middleware"});
         inputHandler.send(new Object[]{"21 products are produced by WSO2 currently", 60.5f, "\\d(.*)WSO22"});
         Thread.sleep(100);
-        Assert.assertEquals(4, count);
-        Assert.assertTrue(eventArrived);
+        AssertJUnit.assertEquals(4, count);
+        AssertJUnit.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
 
@@ -92,12 +96,14 @@ public class RegExFunctionExtensionTestCase {
         log.info("FindStartFromIndexFunctionExtension TestCase");
         SiddhiManager siddhiManager = new SiddhiManager();
 
-        String inStreamDefinition = "define stream inputStream (symbol string, price long, regex string, startingIndex int);";
+        String inStreamDefinition = "define stream inputStream (symbol string, " +
+                                    "price long, regex string, startingIndex int);";
         String query = ("@info(name = 'query1') " +
-                "from inputStream " +
-                "select symbol , regex:find(regex, symbol, startingIndex) as aboutWSO2 " +
-                "insert into outputStream;");
-        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(inStreamDefinition + query);
+                        "from inputStream " +
+                        "select symbol , regex:find(regex, symbol, startingIndex) as aboutWSO2 " +
+                        "insert into outputStream;");
+        SiddhiAppRuntime executionPlanRuntime =
+                siddhiManager.createSiddhiAppRuntime(inStreamDefinition + query);
 
         executionPlanRuntime.addCallback("query1", new QueryCallback() {
             @Override
@@ -106,10 +112,10 @@ public class RegExFunctionExtensionTestCase {
                 for (Event inEvent : inEvents) {
                     count++;
                     if (count == 1) {
-                        Assert.assertEquals(true, inEvent.getData(1));
+                        AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
                     if (count == 2) {
-                        Assert.assertEquals(false, inEvent.getData(1));
+                        AssertJUnit.assertEquals(false, inEvent.getData(1));
                     }
                     eventArrived = true;
                 }
@@ -119,13 +125,13 @@ public class RegExFunctionExtensionTestCase {
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("inputStream");
         executionPlanRuntime.start();
         inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees",
-                60.5f, "\\d\\d(.*)WSO2", 30});
+                                       60.5f, "\\d\\d(.*)WSO2", 30});
         inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees",
-                60.5f, "\\d\\d(.*)WSO2", 35});
+                                       60.5f, "\\d\\d(.*)WSO2", 35});
 
         Thread.sleep(100);
-        Assert.assertEquals(2, count);
-        Assert.assertTrue(eventArrived);
+        AssertJUnit.assertEquals(2, count);
+        AssertJUnit.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
 
@@ -136,10 +142,11 @@ public class RegExFunctionExtensionTestCase {
 
         String inStreamDefinition = "define stream inputStream (symbol string, price long, regex string);";
         String query = ("@info(name = 'query1') " +
-                "from inputStream " +
-                "select symbol , regex:matches(regex, symbol) as aboutWSO2 " +
-                "insert into outputStream;");
-        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(inStreamDefinition + query);
+                        "from inputStream " +
+                        "select symbol , regex:matches(regex, symbol) as aboutWSO2 " +
+                        "insert into outputStream;");
+        SiddhiAppRuntime executionPlanRuntime =
+                siddhiManager.createSiddhiAppRuntime(inStreamDefinition + query);
 
         executionPlanRuntime.addCallback("query1", new QueryCallback() {
             @Override
@@ -148,13 +155,13 @@ public class RegExFunctionExtensionTestCase {
                 for (Event inEvent : inEvents) {
                     count++;
                     if (count == 1) {
-                        Assert.assertEquals(false, inEvent.getData(1));
+                        AssertJUnit.assertEquals(false, inEvent.getData(1));
                     }
                     if (count == 2) {
-                        Assert.assertEquals(true, inEvent.getData(1));
+                        AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
                     if (count == 3) {
-                        Assert.assertEquals(false, inEvent.getData(1));
+                        AssertJUnit.assertEquals(false, inEvent.getData(1));
                     }
                     eventArrived = true;
                 }
@@ -165,12 +172,12 @@ public class RegExFunctionExtensionTestCase {
         executionPlanRuntime.start();
         inputHandler.send(new Object[]{"21 products are produced by WSO2 currently", 60.5f, "\\d\\d(.*)WSO2"});
         inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f,
-                "WSO2(.*)middleware(.*)"});
+                                       "WSO2(.*)middleware(.*)"});
         inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f,
-                "WSO2(.*)middleware"});
+                                       "WSO2(.*)middleware"});
         Thread.sleep(100);
-        Assert.assertEquals(3, count);
-        Assert.assertTrue(eventArrived);
+        AssertJUnit.assertEquals(3, count);
+        AssertJUnit.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
 
@@ -181,10 +188,11 @@ public class RegExFunctionExtensionTestCase {
 
         String inStreamDefinition = "define stream inputStream (symbol string, price long, regex string);";
         String query = ("@info(name = 'query1') " +
-                "from inputStream " +
-                "select symbol , regex:lookingAt(regex, symbol) as aboutWSO2 " +
-                "insert into outputStream;");
-        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(inStreamDefinition + query);
+                        "from inputStream " +
+                        "select symbol , regex:lookingAt(regex, symbol) as aboutWSO2 " +
+                        "insert into outputStream;");
+        SiddhiAppRuntime executionPlanRuntime =
+                siddhiManager.createSiddhiAppRuntime(inStreamDefinition + query);
 
         executionPlanRuntime.addCallback("query1", new QueryCallback() {
             @Override
@@ -193,13 +201,13 @@ public class RegExFunctionExtensionTestCase {
                 for (Event inEvent : inEvents) {
                     count++;
                     if (count == 1) {
-                        Assert.assertEquals(true, inEvent.getData(1));
+                        AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
                     if (count == 2) {
-                        Assert.assertEquals(false, inEvent.getData(1));
+                        AssertJUnit.assertEquals(false, inEvent.getData(1));
                     }
                     if (count == 3) {
-                        Assert.assertEquals(true, inEvent.getData(1));
+                        AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
                     eventArrived = true;
                 }
@@ -208,13 +216,15 @@ public class RegExFunctionExtensionTestCase {
 
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("inputStream");
         executionPlanRuntime.start();
-        inputHandler.send(new Object[]{"21 products are produced by WSO2 currently in Sri Lanka", 60.5f, "\\d\\d(.*)WSO2"});
+        inputHandler.send(new Object[]{"21 products are produced by " +
+                                       "WSO2 currently in Sri Lanka", 60.5f, "\\d\\d(.*)WSO2"});
         inputHandler.send(new Object[]{"sample test string and WSO2 is situated in trace and its a middleware company",
-                60.5f, "WSO2(.*)middleware(.*)"});
-        inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f, "WSO2(.*)middleware"});
+                                       60.5f, "WSO2(.*)middleware(.*)"});
+        inputHandler.send(new Object[]{"WSO2 is situated in trace and its " +
+                                       "a middleware company", 60.5f, "WSO2(.*)middleware"});
         Thread.sleep(100);
-        Assert.assertEquals(3, count);
-        Assert.assertTrue(eventArrived);
+        AssertJUnit.assertEquals(3, count);
+        AssertJUnit.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
 
@@ -225,10 +235,11 @@ public class RegExFunctionExtensionTestCase {
 
         String inStreamDefinition = "define stream inputStream (symbol string, price long, regex string, group int);";
         String query = ("@info(name = 'query1') " +
-                "from inputStream " +
-                "select symbol , regex:group(regex, symbol, group) as aboutWSO2 " +
-                "insert into outputStream;");
-        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(inStreamDefinition + query);
+                        "from inputStream " +
+                        "select symbol , regex:group(regex, symbol, group) as aboutWSO2 " +
+                        "insert into outputStream;");
+        SiddhiAppRuntime executionPlanRuntime =
+                siddhiManager.createSiddhiAppRuntime(inStreamDefinition + query);
 
         executionPlanRuntime.addCallback("query1", new QueryCallback() {
             @Override
@@ -237,16 +248,16 @@ public class RegExFunctionExtensionTestCase {
                 for (Event inEvent : inEvents) {
                     count++;
                     if (count == 1) {
-                        Assert.assertEquals("WSO2 employees", inEvent.getData(1));
+                        AssertJUnit.assertEquals("WSO2 employees", inEvent.getData(1));
                     }
                     if (count == 2) {
-                        Assert.assertEquals("21", inEvent.getData(1));
+                        AssertJUnit.assertEquals("21", inEvent.getData(1));
                     }
                     if (count == 3) {
-                        Assert.assertEquals(" is situated in trace and its a ", inEvent.getData(1));
+                        AssertJUnit.assertEquals(" is situated in trace and its a ", inEvent.getData(1));
                     }
                     if (count == 4) {
-                        Assert.assertEquals(null, inEvent.getData(1));
+                        AssertJUnit.assertEquals(null, inEvent.getData(1));
                     }
                     eventArrived = true;
                 }
@@ -256,14 +267,16 @@ public class RegExFunctionExtensionTestCase {
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("inputStream");
         executionPlanRuntime.start();
         inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees",
-                60.5f, "(\\d\\d)(.*)(WSO2.*)", 3});
+                                       60.5f, "(\\d\\d)(.*)(WSO2.*)", 3});
         inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees",
-                60.5f, "(\\d\\d)(.*)(WSO2.*)", 1});
-        inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f, "WSO2(.*)middleware", 1});
-        inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f, "WSO2(.*)middleware", 2});
+                                       60.5f, "(\\d\\d)(.*)(WSO2.*)", 1});
+        inputHandler.send(new Object[]{"WSO2 is situated in trace and " +
+                                       "its a middleware company", 60.5f, "WSO2(.*)middleware", 1});
+        inputHandler.send(new Object[]{"WSO2 is situated in trace and " +
+                                       "its a middleware company", 60.5f, "WSO2(.*)middleware", 2});
         Thread.sleep(100);
-        Assert.assertEquals(4, count);
-        Assert.assertTrue(eventArrived);
+        AssertJUnit.assertEquals(4, count);
+        AssertJUnit.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
 }
