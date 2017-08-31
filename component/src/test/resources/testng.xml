@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="UniqueWindowProcessorTestSuit" verbose="1">
-    <test name="UniqueWindowProcessorTest">
+<suite name="RegexExpressionExtensionTestSuit" verbose="1">
+    <test name="RegexExpressionExtensionTest">
         <classes>
             <class name="org.wso2.extension.siddhi.execution.regex.RegExFunctionExtensionTestCase"/>
         </classes>
