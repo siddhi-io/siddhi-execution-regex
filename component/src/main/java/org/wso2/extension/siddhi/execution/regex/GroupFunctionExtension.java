@@ -57,14 +57,14 @@ import java.util.regex.Pattern;
         name = "group",
         namespace = "regex",
         description = "This method returns the input sub-sequence captured by the given group during the previous " +
-                      "match operation.",
+                "match operation.",
         parameters = {
                 @Parameter(name = "regex",
-                        description = "regular expression. eg: \"\\d\\d(.*)WSO2.",
+                        description = "regular expression. eg: \\d\\d(.*)WSO2.",
                         type = {DataType.STRING}),
                 @Parameter(name = "input.sequence",
-                        description = "input sequence to be matched with the regular expression eg: \"21 products are" +
-                                      " produced by WSO2.",
+                        description = "input sequence to be matched with the regular expression "
+                                + "eg: 21 products are produced by WSO2.",
                         type = {DataType.STRING}),
                 @Parameter(name = "group.id",
                         description = "the given group id of the regex expression eg: 0, 1, 2, etc.",
@@ -75,8 +75,14 @@ import java.util.regex.Pattern;
                 type = {DataType.STRING}),
         examples = {
                 @Example(
-                        syntax = "TBD",
-                        description = "TBD"
+                        syntax = "define stream inputStream (inputSequence string, price long, regex string,"
+                                + " group int);\n"
+                                + "\n"
+                                + "from inputStream select inputSequence, regex:group(\\d\\d(.*)(WSO2.*), "
+                                + "21 products are produced within 10 years by WSO2 currently by WSO2 employees, 3) \n "
+                                + "insert into outputStream;",
+                        description = "Returns 'WSO2 employees', input sub-sequence captured by the given groupID, 3 "
+                                + "during the previous match operation."
                 )
         }
 )
