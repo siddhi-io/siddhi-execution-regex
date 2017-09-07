@@ -61,19 +61,19 @@ import java.util.regex.Pattern;
 @Extension(
         name = "find",
         namespace = "regex",
-        description = "These methods attempts to find the next sub-sequence of the 'inputSequence' that matches " +
-                      "the 'regex' pattern.",
+        description = "These methods attempts to find the next sub-sequence of the 'inputSequence' that matches "
+                + "the 'regex' pattern.",
         parameters = {
                 @Parameter(name = "regex",
-                        description = "regular expression. eg: \"\\d\\d(.*)WSO2.",
+                        description = "regular expression. eg: \\d\\d(.*)WSO2.",
                         type = {DataType.STRING}),
                 @Parameter(name = "input.sequence",
-                        description = "input sequence to be matched with the regular expression eg: \"21 products are" +
-                                      " produced by WSO2.",
+                        description = "input sequence to be matched with the regular expression "
+                                + "eg: 21 products are produced by WSO2.",
                         type = {DataType.STRING}),
                 @Parameter(name = "starting.index",
-                        description = "starting index of the input sequence to start matching the given regex pattern" +
-                                      " eg: 1, 2.",
+                        description = "starting index of the input sequence to start matching the given regex pattern"
+                                + " eg: 1, 2.",
                         type = {DataType.INT})
         },
         returnAttributes = @ReturnAttribute(
@@ -81,8 +81,35 @@ import java.util.regex.Pattern;
                 type = {DataType.BOOL}),
         examples = {
                 @Example(
-                        syntax = "TBD",
-                        description = "TBD"
+                        syntax = "define stream inputStream (inputSequence string, price long, regex string);\n"
+                                + "\n"
+                                + "from inputStream select inputSequence , "
+                                + "regex:find(\\d\\d(.*)WSO2, 21 products are produced by WSO2 currently) as aboutWSO2 "
+                                + "insert into outputStream;\n",
+                        description = "This method attempts to find the next sub-sequence of the inputSequence "
+                                + "that matches \\d\\d(.*)WSO2 regex  pattern. It returns true as the sub sequence "
+                                + "exists."
+                ),
+                @Example(
+                        syntax = "define stream inputStream (inputSequence string, price long, regex string);\n"
+                                + "\n"
+                                + "from inputStream select inputSequence , "
+                                + "regex:find(\\d\\d(.*)WSO2, 21 products are produced currently) as aboutWSO2 "
+                                + "insert into outputStream;\n",
+                        description = "This method attempts to find the next sub-sequence of the inputSequence "
+                                + "that matches \\d\\d(.*)WSO2 regex  pattern. It returns false as the sub sequence "
+                                + "does not exists."
+                ),
+                @Example(
+                        syntax = "define stream inputStream (inputSequence string, price long, regex string);\n"
+                                + "\n"
+                                + "from inputStream select inputSequence , "
+                                + "regex:find(\\d\\d(.*)WSO2, 21 products are produced within 10 years by WSO2 "
+                                + "currently by WSO2 employees, 30) as aboutWSO2 "
+                                + "insert into outputStream;\n",
+                        description = "This method attempts to find the next sub-sequence of the inputSequence "
+                                + "that matches \\d\\d(.*)WSO2 regex  pattern starting from index 30. "
+                                + "It returns true since such a sub sequence exists."
                 )
         }
 )

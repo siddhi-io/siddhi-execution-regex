@@ -28,16 +28,19 @@ import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.core.query.output.callback.QueryCallback;
 import org.wso2.siddhi.core.stream.input.InputHandler;
 import org.wso2.siddhi.core.util.EventPrinter;
+import org.wso2.siddhi.core.util.SiddhiTestHelper;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class RegExFunctionExtensionTestCase {
     private static final Logger log = Logger.getLogger(RegExFunctionExtensionTestCase.class);
-    private volatile int count;
+    private AtomicInteger count;
     private volatile boolean eventArrived;
 
     @BeforeMethod
     public void init() {
-        count = 0;
+        count = new AtomicInteger(0);
         eventArrived = false;
     }
 
@@ -59,17 +62,17 @@ public class RegExFunctionExtensionTestCase {
             public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
                 EventPrinter.print(timeStamp, inEvents, removeEvents);
                 for (Event inEvent : inEvents) {
-                    count++;
-                    if (count == 1) {
+                    count.incrementAndGet();
+                    if (count.get() == 1) {
                         AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
-                    if (count == 2) {
+                    if (count.get() == 2) {
                         AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
-                    if (count == 3) {
+                    if (count.get() == 3) {
                         AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
-                    if (count == 4) {
+                    if (count.get() == 4) {
                         AssertJUnit.assertEquals(false, inEvent.getData(1));
                     }
                     eventArrived = true;
@@ -85,8 +88,7 @@ public class RegExFunctionExtensionTestCase {
         inputHandler.send(new Object[]{"WSO2 is situated in trace and its a " +
                                        "middleware company", 60.5f, "WSO2(.*)middleware"});
         inputHandler.send(new Object[]{"21 products are produced by WSO2 currently", 60.5f, "\\d(.*)WSO22"});
-        Thread.sleep(100);
-        AssertJUnit.assertEquals(4, count);
+        SiddhiTestHelper.waitForEvents(100, 4, count, 60000);
         AssertJUnit.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
@@ -110,11 +112,11 @@ public class RegExFunctionExtensionTestCase {
             public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
                 EventPrinter.print(timeStamp, inEvents, removeEvents);
                 for (Event inEvent : inEvents) {
-                    count++;
-                    if (count == 1) {
+                    count.incrementAndGet();
+                    if (count.get() == 1) {
                         AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
-                    if (count == 2) {
+                    if (count.get() == 2) {
                         AssertJUnit.assertEquals(false, inEvent.getData(1));
                     }
                     eventArrived = true;
@@ -128,9 +130,7 @@ public class RegExFunctionExtensionTestCase {
                                        60.5f, "\\d\\d(.*)WSO2", 30});
         inputHandler.send(new Object[]{"21 products are produced within 10 years by WSO2 currently by WSO2 employees",
                                        60.5f, "\\d\\d(.*)WSO2", 35});
-
-        Thread.sleep(100);
-        AssertJUnit.assertEquals(2, count);
+        SiddhiTestHelper.waitForEvents(100, 2, count, 60000);
         AssertJUnit.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
@@ -153,14 +153,14 @@ public class RegExFunctionExtensionTestCase {
             public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
                 EventPrinter.print(timeStamp, inEvents, removeEvents);
                 for (Event inEvent : inEvents) {
-                    count++;
-                    if (count == 1) {
+                    count.incrementAndGet();
+                    if (count.get() == 1) {
                         AssertJUnit.assertEquals(false, inEvent.getData(1));
                     }
-                    if (count == 2) {
+                    if (count.get() == 2) {
                         AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
-                    if (count == 3) {
+                    if (count.get() == 3) {
                         AssertJUnit.assertEquals(false, inEvent.getData(1));
                     }
                     eventArrived = true;
@@ -175,8 +175,7 @@ public class RegExFunctionExtensionTestCase {
                                        "WSO2(.*)middleware(.*)"});
         inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f,
                                        "WSO2(.*)middleware"});
-        Thread.sleep(100);
-        AssertJUnit.assertEquals(3, count);
+        SiddhiTestHelper.waitForEvents(100, 3, count, 60000);
         AssertJUnit.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
@@ -199,14 +198,14 @@ public class RegExFunctionExtensionTestCase {
             public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
                 EventPrinter.print(timeStamp, inEvents, removeEvents);
                 for (Event inEvent : inEvents) {
-                    count++;
-                    if (count == 1) {
+                    count.incrementAndGet();
+                    if (count.get() == 1) {
                         AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
-                    if (count == 2) {
+                    if (count.get() == 2) {
                         AssertJUnit.assertEquals(false, inEvent.getData(1));
                     }
-                    if (count == 3) {
+                    if (count.get() == 3) {
                         AssertJUnit.assertEquals(true, inEvent.getData(1));
                     }
                     eventArrived = true;
@@ -222,8 +221,7 @@ public class RegExFunctionExtensionTestCase {
                                        60.5f, "WSO2(.*)middleware(.*)"});
         inputHandler.send(new Object[]{"WSO2 is situated in trace and its " +
                                        "a middleware company", 60.5f, "WSO2(.*)middleware"});
-        Thread.sleep(100);
-        AssertJUnit.assertEquals(3, count);
+        SiddhiTestHelper.waitForEvents(100, 3, count, 60000);
         AssertJUnit.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
@@ -246,17 +244,17 @@ public class RegExFunctionExtensionTestCase {
             public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
                 EventPrinter.print(timeStamp, inEvents, removeEvents);
                 for (Event inEvent : inEvents) {
-                    count++;
-                    if (count == 1) {
+                    count.incrementAndGet();
+                    if (count.get() == 1) {
                         AssertJUnit.assertEquals("WSO2 employees", inEvent.getData(1));
                     }
-                    if (count == 2) {
+                    if (count.get() == 2) {
                         AssertJUnit.assertEquals("21", inEvent.getData(1));
                     }
-                    if (count == 3) {
+                    if (count.get() == 3) {
                         AssertJUnit.assertEquals(" is situated in trace and its a ", inEvent.getData(1));
                     }
-                    if (count == 4) {
+                    if (count.get() == 4) {
                         AssertJUnit.assertEquals(null, inEvent.getData(1));
                     }
                     eventArrived = true;
@@ -274,8 +272,7 @@ public class RegExFunctionExtensionTestCase {
                                        "its a middleware company", 60.5f, "WSO2(.*)middleware", 1});
         inputHandler.send(new Object[]{"WSO2 is situated in trace and " +
                                        "its a middleware company", 60.5f, "WSO2(.*)middleware", 2});
-        Thread.sleep(100);
-        AssertJUnit.assertEquals(4, count);
+        SiddhiTestHelper.waitForEvents(100, 4, count, 60000);
         AssertJUnit.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
