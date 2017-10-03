@@ -177,16 +177,6 @@ public class GroupFunctionExtension extends FunctionExecutor {
     }
 
     @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
     public Attribute.Type getReturnType() {
         return returnType;
     }
@@ -208,4 +198,5 @@ public class GroupFunctionExtension extends FunctionExecutor {
         regexConstant = (String) state.get("regexConstant");
         patternConstant = (Pattern) state.get("patternConstant");
     }
+
 }
