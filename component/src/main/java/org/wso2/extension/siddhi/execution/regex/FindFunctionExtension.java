@@ -223,7 +223,7 @@ public class FindFunctionExtension extends FunctionExecutor {
 
     @Override
     public Map<String, Object> currentState() {
-        Map<String,Object> stateMap = new HashMap<>(3);
+        Map<String, Object> stateMap = new HashMap<>(3);
         stateMap.put("isRegexConstant", isRegexConstant);
         stateMap.put("regexConstant", regexConstant);
         stateMap.put("patternConstant", patternConstant);

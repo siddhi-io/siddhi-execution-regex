@@ -4,6 +4,11 @@
     <test name="RegexExpressionExtensionTest">
         <classes>
             <class name="org.wso2.extension.siddhi.execution.regex.RegExFunctionExtensionTestCase"/>
+            <class name="org.wso2.extension.siddhi.execution.regex.FindFunctionExtensionTestCase"/>
+            <class name="org.wso2.extension.siddhi.execution.regex.GroupFunctionExtensionTestCase"/>
+            <class name="org.wso2.extension.siddhi.execution.regex.LookingAtFunctionExtensionTestCase"/>
+            <class name="org.wso2.extension.siddhi.execution.regex.MatchesFunctionExtensionTestCase"/>
+            <class name="org.wso2.extension.siddhi.execution.regex.RegexPersistanceTestCase"/>
         </classes>
     </test>
 </suite>
