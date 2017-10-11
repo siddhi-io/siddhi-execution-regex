@@ -171,13 +171,11 @@ public class MatchesFunctionExtension extends FunctionExecutor {
 
     @Override
     public Map<String, Object> currentState() {
-        return new HashMap<String, Object>() {
-            {
-                put("isRegexConstant", isRegexConstant);
-                put("regexConstant", regexConstant);
-                put("patternConstant", patternConstant);
-            }
-        };
+        Map<String, Object> stateMap = new HashMap<>(3);
+        stateMap.put("isRegexConstant", isRegexConstant);
+        stateMap.put("regexConstant", regexConstant);
+        stateMap.put("patternConstant", patternConstant);
+        return stateMap;
     }
 
     @Override
