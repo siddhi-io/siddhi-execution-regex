@@ -16,7 +16,7 @@
     
     
       
-        <title>4.0.2-SNAPSHOT - Siddhi-Execution-Regex</title>
+        <title>4.0.4-SNAPSHOT - Siddhi-Execution-Regex</title>
       
     
     
@@ -82,7 +82,7 @@
                 </span>
               
             
-            4.0.2-SNAPSHOT
+            4.0.4-SNAPSHOT
           
         </span>
       </div>
@@ -176,6 +176,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../4.0.2-SNAPSHOT/" title="4.0.2-SNAPSHOT" class="md-nav__link">
+      4.0.2-SNAPSHOT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -187,11 +199,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="toc">
-        4.0.2-SNAPSHOT
+        4.0.4-SNAPSHOT
       </label>
     
-    <a href="./" title="4.0.2-SNAPSHOT" class="md-nav__link md-nav__link--active">
-      4.0.2-SNAPSHOT
+    <a href="./" title="4.0.4-SNAPSHOT" class="md-nav__link md-nav__link--active">
+      4.0.4-SNAPSHOT
     </a>
     
       
@@ -220,15 +232,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#find-function" title="find (Function" class="md-nav__link">
-    find (Function
+  <a href="#group-function" title="group (Function" class="md-nav__link">
+    group (Function
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#group-function" title="group (Function" class="md-nav__link">
-    group (Function
+  <a href="#find-function" title="find (Function" class="md-nav__link">
+    find (Function
   </a>
   
 </li>
@@ -251,18 +263,6 @@
   
 </nav>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../4.0.4-SNAPSHOT/" title="4.0.4-SNAPSHOT" class="md-nav__link">
-      4.0.4-SNAPSHOT
-    </a>
   </li>
 
         
@@ -319,15 +319,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#find-function" title="find (Function" class="md-nav__link">
-    find (Function
+  <a href="#group-function" title="group (Function" class="md-nav__link">
+    group (Function
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#group-function" title="group (Function" class="md-nav__link">
-    group (Function
+  <a href="#find-function" title="find (Function" class="md-nav__link">
+    find (Function
   </a>
   
 </li>
@@ -412,6 +412,58 @@ from inputStream select inputSequence, regex:matches(WSO2(.*)middleware, WSO2 is
 
 <p style="word-wrap: break-word">This method attempts to match the entire inputSequence against WSO2(.*)middleware regex pattern. Since it does not match, it returns false.</p>
 
+<h3 id="group-function">group <em>(<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#functions">Function</a>)</em></h3>
+<p style="word-wrap: break-word">This method returns the input sub-sequence captured by the given group during the previous match operation.</p>
+
+<p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
+<pre><code>&lt;STRING&gt; regex:group(&lt;STRING&gt; regex, &lt;STRING&gt; input.sequence, &lt;INT&gt; group.id)
+</code></pre>
+
+<p><span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
+<table>
+    <tr>
+        <th>Name</th>
+        <th style="min-width: 20em">Description</th>
+        <th>Default Value</th>
+        <th>Possible Data Types</th>
+        <th>Optional</th>
+        <th>Dynamic</th>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">regex</td>
+        <td style="vertical-align: top; word-wrap: break-word">regular expression. eg: \d\d(.*)WSO2.</td>
+        <td style="vertical-align: top"></td>
+        <td style="vertical-align: top">STRING</td>
+        <td style="vertical-align: top">No</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">input.sequence</td>
+        <td style="vertical-align: top; word-wrap: break-word">input sequence to be matched with the regular expression eg: 21 products are produced by WSO2.</td>
+        <td style="vertical-align: top"></td>
+        <td style="vertical-align: top">STRING</td>
+        <td style="vertical-align: top">No</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">group.id</td>
+        <td style="vertical-align: top; word-wrap: break-word">the given group id of the regex expression eg: 0, 1, 2, etc.</td>
+        <td style="vertical-align: top"></td>
+        <td style="vertical-align: top">INT</td>
+        <td style="vertical-align: top">No</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+</table></p>
+<p><span id="examples" class="md-typeset" style="display: block; font-weight: bold;">Examples</span>
+<span id="example-1" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 1</span></p>
+<pre><code>define stream inputStream (inputSequence string, price long, regex string, group int);
+
+from inputStream select inputSequence, regex:group(\d\d(.*)(WSO2.*), 21 products are produced within 10 years by WSO2 currently by WSO2 employees, 3) 
+ insert into outputStream;
+</code></pre>
+
+<p style="word-wrap: break-word">Returns 'WSO2 employees', input sub-sequence captured by the given groupID, 3 during the previous match operation.</p>
+
 <h3 id="find-function">find <em>(<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#functions">Function</a>)</em></h3>
 <p style="word-wrap: break-word">These methods attempts to find the next sub-sequence of the 'inputSequence' that matches the 'regex' pattern.</p>
 
@@ -482,58 +534,6 @@ from inputStream select inputSequence , regex:find(\d\d(.*)WSO2, 21 products are
 
 <p style="word-wrap: break-word">This method attempts to find the next sub-sequence of the inputSequence that matches \d\d(.*)WSO2 regex  pattern starting from index 30. It returns true since such a sub sequence exists.</p>
 
-<h3 id="group-function">group <em>(<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#functions">Function</a>)</em></h3>
-<p style="word-wrap: break-word">This method returns the input sub-sequence captured by the given group during the previous match operation.</p>
-
-<p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
-<pre><code>&lt;STRING&gt; regex:group(&lt;STRING&gt; regex, &lt;STRING&gt; input.sequence, &lt;INT&gt; group.id)
-</code></pre>
-
-<p><span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
-<table>
-    <tr>
-        <th>Name</th>
-        <th style="min-width: 20em">Description</th>
-        <th>Default Value</th>
-        <th>Possible Data Types</th>
-        <th>Optional</th>
-        <th>Dynamic</th>
-    </tr>
-    <tr>
-        <td style="vertical-align: top">regex</td>
-        <td style="vertical-align: top; word-wrap: break-word">regular expression. eg: \d\d(.*)WSO2.</td>
-        <td style="vertical-align: top"></td>
-        <td style="vertical-align: top">STRING</td>
-        <td style="vertical-align: top">No</td>
-        <td style="vertical-align: top">No</td>
-    </tr>
-    <tr>
-        <td style="vertical-align: top">input.sequence</td>
-        <td style="vertical-align: top; word-wrap: break-word">input sequence to be matched with the regular expression eg: 21 products are produced by WSO2.</td>
-        <td style="vertical-align: top"></td>
-        <td style="vertical-align: top">STRING</td>
-        <td style="vertical-align: top">No</td>
-        <td style="vertical-align: top">No</td>
-    </tr>
-    <tr>
-        <td style="vertical-align: top">group.id</td>
-        <td style="vertical-align: top; word-wrap: break-word">the given group id of the regex expression eg: 0, 1, 2, etc.</td>
-        <td style="vertical-align: top"></td>
-        <td style="vertical-align: top">INT</td>
-        <td style="vertical-align: top">No</td>
-        <td style="vertical-align: top">No</td>
-    </tr>
-</table></p>
-<p><span id="examples" class="md-typeset" style="display: block; font-weight: bold;">Examples</span>
-<span id="example-1" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 1</span></p>
-<pre><code>define stream inputStream (inputSequence string, price long, regex string, group int);
-
-from inputStream select inputSequence, regex:group(\d\d(.*)(WSO2.*), 21 products are produced within 10 years by WSO2 currently by WSO2 employees, 3) 
- insert into outputStream;
-</code></pre>
-
-<p style="word-wrap: break-word">Returns 'WSO2 employees', input sub-sequence captured by the given groupID, 3 during the previous match operation.</p>
-
 <h3 id="lookingat-function">lookingAt <em>(<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#functions">Function</a>)</em></h3>
 <p style="word-wrap: break-word">This method attempts to match the 'inputSequence', starting at the beginning, against the 'regex' pattern.</p>
 
@@ -602,7 +602,7 @@ from inputStream select inputSequence, regex:lookingAt(WSO2(.*)middleware(.*), s
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../.." title="Welcome to WSO2 Siddhi Execution Regex" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../4.0.2-SNAPSHOT/" title="4.0.2-SNAPSHOT" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -611,19 +611,19 @@ from inputStream select inputSequence, regex:lookingAt(WSO2(.*)middleware(.*), s
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Welcome to WSO2 Siddhi Execution Regex
+                4.0.2-SNAPSHOT
               </span>
             </div>
           </a>
         
         
-          <a href="../4.0.4-SNAPSHOT/" title="4.0.4-SNAPSHOT" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../../LICENSE/" title="License" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                4.0.4-SNAPSHOT
+                License
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
