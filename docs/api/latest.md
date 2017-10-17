@@ -1,14 +1,14 @@
-# API Docs
+# API Docs - v4.0.5
 
 ## Regex
 
-### matches *(<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#functions">Function</a>)*
+### lookingAt *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a>*
 
-<p style="word-wrap: break-word">This method attempts to match the entire 'inputSequence' against the 'regex' pattern.</p>
+<p style="word-wrap: break-word">This method attempts to match the 'inputSequence', starting at the beginning, against the 'regex' pattern.</p>
 
 <span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span>
 ```
-<BOOL> regex:matches(<STRING> regex, <STRING> input.sequence)
+<BOOL> regex:lookingAt(<STRING> regex, <STRING> input.sequence)
 ```
 
 <span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
@@ -44,74 +44,19 @@
 ```
 define stream inputStream (inputSequence string, price long, regex string, group int);
 
-from inputStream select inputSequence, regex:matches(WSO2(.*)middleware(.*), WSO2 is situated in trace and its a middleware company)
+from inputStream select inputSequence, regex:lookingAt(\d\d(.*)(WSO2.*), 21 products are produced by WSO2 currently in Sri Lanka)
 ```
-<p style="word-wrap: break-word">This method attempts to match the entire inputSequence against WSO2(.*)middleware(.*) regex pattern. Since it matches, it returns true.</p>
+<p style="word-wrap: break-word">This method attempts to match the inputSequence against \d\d(.*)(WSO2.*) regex pattern starting at the beginning. Since it matches, returns true.</p>
 
 <span id="example-2" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 2</span>
 ```
 define stream inputStream (inputSequence string, price long, regex string, group int);
 
-from inputStream select inputSequence, regex:matches(WSO2(.*)middleware, WSO2 is situated in trace and its a middleware company)
+from inputStream select inputSequence, regex:lookingAt(WSO2(.*)middleware(.*), sample test string and WSO2 is situated in trace and its a middleware company)
 ```
-<p style="word-wrap: break-word">This method attempts to match the entire inputSequence against WSO2(.*)middleware regex pattern. Since it does not match, it returns false.</p>
+<p style="word-wrap: break-word">This method attempts to match the inputSequence against WSO2(.*)middleware(.*) regex pattern starting at the beginning. Since it does not match, returns false.</p>
 
-### group *(<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#functions">Function</a>)*
-
-<p style="word-wrap: break-word">This method returns the input sub-sequence captured by the given group during the previous match operation.</p>
-
-<span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span>
-```
-<STRING> regex:group(<STRING> regex, <STRING> input.sequence, <INT> group.id)
-```
-
-<span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
-<table>
-    <tr>
-        <th>Name</th>
-        <th style="min-width: 20em">Description</th>
-        <th>Default Value</th>
-        <th>Possible Data Types</th>
-        <th>Optional</th>
-        <th>Dynamic</th>
-    </tr>
-    <tr>
-        <td style="vertical-align: top">regex</td>
-        <td style="vertical-align: top; word-wrap: break-word">regular expression. eg: \d\d(.*)WSO2.</td>
-        <td style="vertical-align: top"></td>
-        <td style="vertical-align: top">STRING</td>
-        <td style="vertical-align: top">No</td>
-        <td style="vertical-align: top">No</td>
-    </tr>
-    <tr>
-        <td style="vertical-align: top">input.sequence</td>
-        <td style="vertical-align: top; word-wrap: break-word">input sequence to be matched with the regular expression eg: 21 products are produced by WSO2.</td>
-        <td style="vertical-align: top"></td>
-        <td style="vertical-align: top">STRING</td>
-        <td style="vertical-align: top">No</td>
-        <td style="vertical-align: top">No</td>
-    </tr>
-    <tr>
-        <td style="vertical-align: top">group.id</td>
-        <td style="vertical-align: top; word-wrap: break-word">the given group id of the regex expression eg: 0, 1, 2, etc.</td>
-        <td style="vertical-align: top"></td>
-        <td style="vertical-align: top">INT</td>
-        <td style="vertical-align: top">No</td>
-        <td style="vertical-align: top">No</td>
-    </tr>
-</table>
-
-<span id="examples" class="md-typeset" style="display: block; font-weight: bold;">Examples</span>
-<span id="example-1" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 1</span>
-```
-define stream inputStream (inputSequence string, price long, regex string, group int);
-
-from inputStream select inputSequence, regex:group(\d\d(.*)(WSO2.*), 21 products are produced within 10 years by WSO2 currently by WSO2 employees, 3) 
- insert into outputStream;
-```
-<p style="word-wrap: break-word">Returns 'WSO2 employees', input sub-sequence captured by the given groupID, 3 during the previous match operation.</p>
-
-### find *(<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#functions">Function</a>)*
+### find *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a>*
 
 <p style="word-wrap: break-word">These methods attempts to find the next sub-sequence of the 'inputSequence' that matches the 'regex' pattern.</p>
 
@@ -184,13 +129,13 @@ from inputStream select inputSequence , regex:find(\d\d(.*)WSO2, 21 products are
 ```
 <p style="word-wrap: break-word">This method attempts to find the next sub-sequence of the inputSequence that matches \d\d(.*)WSO2 regex  pattern starting from index 30. It returns true since such a sub sequence exists.</p>
 
-### lookingAt *(<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#functions">Function</a>)*
+### matches *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a>*
 
-<p style="word-wrap: break-word">This method attempts to match the 'inputSequence', starting at the beginning, against the 'regex' pattern.</p>
+<p style="word-wrap: break-word">This method attempts to match the entire 'inputSequence' against the 'regex' pattern.</p>
 
 <span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span>
 ```
-<BOOL> regex:lookingAt(<STRING> regex, <STRING> input.sequence)
+<BOOL> regex:matches(<STRING> regex, <STRING> input.sequence)
 ```
 
 <span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
@@ -226,15 +171,70 @@ from inputStream select inputSequence , regex:find(\d\d(.*)WSO2, 21 products are
 ```
 define stream inputStream (inputSequence string, price long, regex string, group int);
 
-from inputStream select inputSequence, regex:lookingAt(\d\d(.*)(WSO2.*), 21 products are produced by WSO2 currently in Sri Lanka)
+from inputStream select inputSequence, regex:matches(WSO2(.*)middleware(.*), WSO2 is situated in trace and its a middleware company)
 ```
-<p style="word-wrap: break-word">This method attempts to match the inputSequence against \d\d(.*)(WSO2.*) regex pattern starting at the beginning. Since it matches, returns true.</p>
+<p style="word-wrap: break-word">This method attempts to match the entire inputSequence against WSO2(.*)middleware(.*) regex pattern. Since it matches, it returns true.</p>
 
 <span id="example-2" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 2</span>
 ```
 define stream inputStream (inputSequence string, price long, regex string, group int);
 
-from inputStream select inputSequence, regex:lookingAt(WSO2(.*)middleware(.*), sample test string and WSO2 is situated in trace and its a middleware company)
+from inputStream select inputSequence, regex:matches(WSO2(.*)middleware, WSO2 is situated in trace and its a middleware company)
 ```
-<p style="word-wrap: break-word">This method attempts to match the inputSequence against WSO2(.*)middleware(.*) regex pattern starting at the beginning. Since it does not match, returns false.</p>
+<p style="word-wrap: break-word">This method attempts to match the entire inputSequence against WSO2(.*)middleware regex pattern. Since it does not match, it returns false.</p>
+
+### group *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a>*
+
+<p style="word-wrap: break-word">This method returns the input sub-sequence captured by the given group during the previous match operation.</p>
+
+<span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span>
+```
+<STRING> regex:group(<STRING> regex, <STRING> input.sequence, <INT> group.id)
+```
+
+<span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
+<table>
+    <tr>
+        <th>Name</th>
+        <th style="min-width: 20em">Description</th>
+        <th>Default Value</th>
+        <th>Possible Data Types</th>
+        <th>Optional</th>
+        <th>Dynamic</th>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">regex</td>
+        <td style="vertical-align: top; word-wrap: break-word">regular expression. eg: \d\d(.*)WSO2.</td>
+        <td style="vertical-align: top"></td>
+        <td style="vertical-align: top">STRING</td>
+        <td style="vertical-align: top">No</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">input.sequence</td>
+        <td style="vertical-align: top; word-wrap: break-word">input sequence to be matched with the regular expression eg: 21 products are produced by WSO2.</td>
+        <td style="vertical-align: top"></td>
+        <td style="vertical-align: top">STRING</td>
+        <td style="vertical-align: top">No</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">group.id</td>
+        <td style="vertical-align: top; word-wrap: break-word">the given group id of the regex expression eg: 0, 1, 2, etc.</td>
+        <td style="vertical-align: top"></td>
+        <td style="vertical-align: top">INT</td>
+        <td style="vertical-align: top">No</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+</table>
+
+<span id="examples" class="md-typeset" style="display: block; font-weight: bold;">Examples</span>
+<span id="example-1" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 1</span>
+```
+define stream inputStream (inputSequence string, price long, regex string, group int);
+
+from inputStream select inputSequence, regex:group(\d\d(.*)(WSO2.*), 21 products are produced within 10 years by WSO2 currently by WSO2 employees, 3) 
+ insert into outputStream;
+```
+<p style="word-wrap: break-word">Returns 'WSO2 employees', input sub-sequence captured by the given groupID, 3 during the previous match operation.</p>
 
