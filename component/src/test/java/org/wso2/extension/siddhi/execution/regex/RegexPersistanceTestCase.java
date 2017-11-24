@@ -25,6 +25,7 @@ import org.testng.annotations.Test;
 import org.wso2.siddhi.core.SiddhiAppRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.event.Event;
+import org.wso2.siddhi.core.exception.CannotRestoreSiddhiAppStateException;
 import org.wso2.siddhi.core.query.output.callback.QueryCallback;
 import org.wso2.siddhi.core.stream.input.InputHandler;
 import org.wso2.siddhi.core.util.EventPrinter;
@@ -47,7 +48,8 @@ public class RegexPersistanceTestCase {
     }
 
     @Test
-    public void testFindFunctionExtensionPersistenceTestCase() throws InterruptedException {
+    public void testFindFunctionExtensionPersistenceTestCase() throws InterruptedException,
+                                                                      CannotRestoreSiddhiAppStateException {
         log.info("FindFunctionExtension TestCase");
         PersistenceStore persistenceStore = new InMemoryPersistenceStore();
         SiddhiManager siddhiManager = new SiddhiManager();
@@ -105,7 +107,8 @@ public class RegexPersistanceTestCase {
     }
 
     @Test
-    public void testGroupFunctionExtensionPersistence() throws InterruptedException {
+    public void testGroupFunctionExtensionPersistence() throws InterruptedException,
+                                                               CannotRestoreSiddhiAppStateException {
         log.info("GroupFunctionExtension Persistence testcase");
         PersistenceStore persistenceStore = new InMemoryPersistenceStore();
         SiddhiManager siddhiManager = new SiddhiManager();
@@ -165,7 +168,8 @@ public class RegexPersistanceTestCase {
     }
 
     @Test
-    public void testLookingAtFunctionExtensionPersistence() throws InterruptedException {
+    public void testLookingAtFunctionExtensionPersistence() throws InterruptedException,
+                                                                   CannotRestoreSiddhiAppStateException {
         log.info("LookingAtFunctionExtension Persistence TestCase");
         PersistenceStore persistenceStore = new InMemoryPersistenceStore();
         SiddhiManager siddhiManager = new SiddhiManager();
@@ -221,7 +225,8 @@ public class RegexPersistanceTestCase {
     }
 
     @Test
-    public void testMatchesFunctionExtensionPersistence() throws InterruptedException {
+    public void testMatchesFunctionExtensionPersistence() throws InterruptedException,
+                                                                 CannotRestoreSiddhiAppStateException {
         log.info("MatchesFunctionExtension Persistence TestCase");
         PersistenceStore persistenceStore = new InMemoryPersistenceStore();
         SiddhiManager siddhiManager = new SiddhiManager();
