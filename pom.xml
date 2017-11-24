@@ -45,7 +45,7 @@
     </profiles>
 
     <properties>
-        <siddhi.version>4.0.0-alpha</siddhi.version>
+        <siddhi.version>4.0.0-beta</siddhi.version>
         <log4j.version>1.2.17.wso2v1</log4j.version>
         <testng.version>6.11</testng.version>
         <jacoco.maven.version>0.7.9</jacoco.maven.version>
@@ -148,18 +148,6 @@
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.wso2.siddhi</groupId>
-                <artifactId>siddhi-doc-gen</artifactId>
-                <version>${siddhi.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate-md-docs</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
 
