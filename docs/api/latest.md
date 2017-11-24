@@ -1,4 +1,4 @@
-# API Docs - v4.0.7-SNAPSHOT
+# API Docs - v4.0.7
 
 ## Regex
 
