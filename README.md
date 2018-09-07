@@ -12,7 +12,7 @@ Find some useful links below:
 
 ## Latest API Docs 
 
-Latest API Docs is <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-regex/api/4.0.13">4.0.13</a>.
+Latest API Docs is <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-regex/api/4.0.14">4.0.14</a>.
 
 ## How to use 
 
@@ -46,10 +46,10 @@ Latest API Docs is <a target="_blank" href="https://wso2-extensions.github.io/si
 
 ## Features
 
-* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-regex/api/4.0.13/#find-function">find</a> *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a>*<br><div style="padding-left: 1em;"><p>These methods attempts to find the next sub-sequence of the 'inputSequence' that matches the 'regex' pattern.</p></div>
-* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-regex/api/4.0.13/#group-function">group</a> *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a>*<br><div style="padding-left: 1em;"><p>This method returns the input sub-sequence captured by the given group during the previous match operation.</p></div>
-* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-regex/api/4.0.13/#lookingat-function">lookingAt</a> *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a>*<br><div style="padding-left: 1em;"><p>This method attempts to match the 'inputSequence', starting at the beginning, against the 'regex' pattern.</p></div>
-* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-regex/api/4.0.13/#matches-function">matches</a> *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a>*<br><div style="padding-left: 1em;"><p>This method attempts to match the entire 'inputSequence' against the 'regex' pattern.</p></div>
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-regex/api/4.0.14/#find-function">find</a> *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a>*<br><div style="padding-left: 1em;"><p>These methods attempts to find the next sub-sequence of the 'inputSequence' that matches the 'regex' pattern.</p></div>
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-regex/api/4.0.14/#group-function">group</a> *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a>*<br><div style="padding-left: 1em;"><p>This method returns the input sub-sequence captured by the given group during the previous match operation.</p></div>
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-regex/api/4.0.14/#lookingat-function">lookingAt</a> *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a>*<br><div style="padding-left: 1em;"><p>This method attempts to match the 'inputSequence', starting at the beginning, against the 'regex' pattern.</p></div>
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-execution-regex/api/4.0.14/#matches-function">matches</a> *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a>*<br><div style="padding-left: 1em;"><p>This method attempts to match the entire 'inputSequence' against the 'regex' pattern.</p></div>
 
 ## How to Contribute
  
