@@ -20,3 +20,4 @@ var header = document.querySelector('.md-header-nav__title');
 var headerContent = document.querySelectorAll('.md-header-nav__topic')[1].textContent.trim();
 
 header.innerHTML = '<span class="extention-title">' + extentionTitle + '</span>' + headerContent;
+
