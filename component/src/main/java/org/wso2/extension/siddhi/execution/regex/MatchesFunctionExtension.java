@@ -62,12 +62,12 @@ import java.util.regex.Pattern;
                         description = "regular expression. eg: \\d\\d(.*)WSO2.",
                         type = {DataType.STRING}),
                 @Parameter(name = "input.sequence",
-                        description = "input sequence to be matched with the regular expression "
-                                + "eg: 21 products are produced by WSO2.",
+                        description = "The input sequence to be matched with the regular expression. "
+                                + "For example, 21 products are produced by WSO2.",
                         type = {DataType.STRING})
         },
         returnAttributes = @ReturnAttribute(
-                description = "Returned type will be boolean. Either true or false",
+                description = "The value returned is of 'boolean' type, i.e., either 'true' or 'false'.",
                 type = {DataType.BOOL}),
         examples = {
                 @Example(

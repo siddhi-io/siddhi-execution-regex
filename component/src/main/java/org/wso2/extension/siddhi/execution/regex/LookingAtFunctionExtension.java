@@ -56,38 +56,39 @@ import java.util.regex.Pattern;
 @Extension(
         name = "lookingAt",
         namespace = "regex",
-        description = "This method attempts to match the 'inputSequence', starting at the beginning, against the "
+        description = "This method attempts to match the 'inputSequence', from the beginning, against the "
                 + "'regex' pattern.",
         parameters = {
                 @Parameter(name = "regex",
-                        description = "regular expression. eg: \\d\\d(.*)WSO2.",
+                        description = "A regular expression. For example, \\d\\d(.*)WSO2.",
                         type = {DataType.STRING}),
                 @Parameter(name = "input.sequence",
-                        description = "input sequence to be matched with the regular expression "
-                                + "eg: 21 products are produced by WSO2.",
+                        description = "The input sequence to be matched with the regular expression. "
+                                + "For example, 21 products are produced by WSO2.",
                         type = {DataType.STRING})
         },
         returnAttributes = @ReturnAttribute(
-                description = "Returned type will be boolean.",
+                description = "The value returned is of 'boolean' type.",
                 type = {DataType.BOOL}),
         examples = {
                 @Example(
-                        syntax = "define stream inputStream (inputSequence string, price long, regex string,"
+                        syntax = "define stream InputStream (inputSequence string, price long, regex string,"
                                 + " group int);\n"
                                 + "\n"
-                                + "from inputStream select inputSequence, regex:lookingAt(\\d\\d(.*)(WSO2.*), "
+                                + "from InputStream select inputSequence, regex:lookingAt(\\d\\d(.*)(WSO2.*), "
                                 + "21 products are produced by WSO2 currently in Sri Lanka)",
-                        description = "This method attempts to match the inputSequence against \\d\\d(.*)(WSO2.*) "
-                                + "regex pattern starting at the beginning. Since it matches, returns true."
+                        description = "This method attempts to match the 'inputSequence' against the regex pattern," +
+                                " \\d\\d(.*)(WSO2.*) from the beginning. Since it matches the function returns 'true'."
                 ),
                 @Example(
-                        syntax = "define stream inputStream (inputSequence string, price long, regex string,"
+                        syntax = "define stream InputStream (inputSequence string, price long, regex string,"
                                 + " group int);\n"
                                 + "\n"
-                                + "from inputStream select inputSequence, regex:lookingAt(WSO2(.*)middleware(.*), "
+                                + "from InputStream select inputSequence, regex:lookingAt(WSO2(.*)middleware(.*), "
                                 + "sample test string and WSO2 is situated in trace and its a middleware company)",
-                        description = "This method attempts to match the inputSequence against WSO2(.*)middleware(.*) "
-                                + "regex pattern starting at the beginning. Since it does not match, returns false."
+                        description = "This method attempts to match the 'inputSequence' against the regex pattern, " +
+                                "WSO2(.*)middleware(.*) from the beginning. Since it does not match, the function " +
+                                "returns false."
                 )
         }
 )
