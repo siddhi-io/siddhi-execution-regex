@@ -59,25 +59,25 @@ import java.util.regex.Pattern;
         description = "This method attempts to match the entire 'inputSequence' against the 'regex' pattern.",
         parameters = {
                 @Parameter(name = "regex",
-                        description = "regular expression. eg: \\d\\d(.*)WSO2.",
+                        description = "A regular expression. For example, \\d\\d(.*)WSO2.",
                         type = {DataType.STRING}),
                 @Parameter(name = "input.sequence",
-                        description = "input sequence to be matched with the regular expression "
-                                + "eg: 21 products are produced by WSO2.",
+                        description = "The input sequence to be matched with the regular expression. "
+                                + "For example, 21 products are produced by WSO2.",
                         type = {DataType.STRING})
         },
         returnAttributes = @ReturnAttribute(
-                description = "Returned type will be boolean. Either true or false",
+                description = "The value returned is of 'boolean' type, i.e., either 'true' or 'false'.",
                 type = {DataType.BOOL}),
         examples = {
                 @Example(
-                        syntax = "define stream inputStream (inputSequence string, price long, regex string,"
+                        syntax = "define stream InputStream (inputSequence string, price long, regex string,"
                                 + " group int);\n"
                                 + "\n"
-                                + "from inputStream select inputSequence, regex:matches(WSO2(.*)middleware(.*), "
+                                + "from InputStream select inputSequence, regex:matches(WSO2(.*)middleware(.*), "
                                 + "WSO2 is situated in trace and its a middleware company)",
-                        description = "This method attempts to match the entire inputSequence against " +
-                                "WSO2(.*)middleware(.*) regex pattern. Since it matches, it returns true."
+                        description = "This method attempts to match the entire 'inputSequence' against " +
+                                "WSO2(.*)middleware(.*) regex pattern. Since it matches, it returns 'true'."
                 ),
                 @Example(
                         syntax = "define stream inputStream (inputSequence string, price long, regex string,"
@@ -85,8 +85,8 @@ import java.util.regex.Pattern;
                                 + "\n"
                                 + "from inputStream select inputSequence, regex:matches(WSO2(.*)middleware, "
                                 + "WSO2 is situated in trace and its a middleware company)",
-                        description = "This method attempts to match the entire inputSequence against " +
-                                "WSO2(.*)middleware regex pattern. Since it does not match, it returns false."
+                        description = "This method attempts to match the entire 'inputSequence' against " +
+                                "WSO2(.*)middleware regex pattern. Since it does not match, it returns 'false'."
                 )
         }
 )
