@@ -79,12 +79,13 @@ import java.util.regex.Pattern;
                                 + " group int);\n"
                                 + "\n"
                                 + "from InputStream select inputSequence, regex:group(\\d\\d(.*)(WSO2.*), "
-                                + "21 products are prod uced within 10 years by WSO2 currently " +
+                                    + "21 products are produced within 10 years by WSO2 currently " +
                                 "by WSO2 employees, 3) \n "
                                 + "insert into OutputStream;",
                         description = "This function returns 'WSO2 employees', the input subsequence captured" +
-                                " by the given groupID, 3 "
-                                + "during the previous match operation."
+                                " within the given groupID, 3 after grouping the 'inputSequence' according to " +
+                                "the regex pattern, \\d\\d(.*)(WSO2.*). "
+
                 )
         }
 )

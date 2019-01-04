@@ -78,14 +78,14 @@ import java.util.regex.Pattern;
                                 + "from InputStream select inputSequence, regex:lookingAt(\\d\\d(.*)(WSO2.*), "
                                 + "21 products are produced by WSO2 currently in Sri Lanka)",
                         description = "This method attempts to match the 'inputSequence' against the regex pattern," +
-                                " \\d\\d(.*)(WSO2.*) from the beginning. Since it matches the function returns 'true'."
+                                " \\d\\d(.*)(WSO2.*) from the beginning. Since it matches, the function returns 'true'."
                 ),
                 @Example(
                         syntax = "define stream InputStream (inputSequence string, price long, regex string,"
                                 + " group int);\n"
                                 + "\n"
                                 + "from InputStream select inputSequence, regex:lookingAt(WSO2(.*)middleware(.*), "
-                                + "sample test string and WSO2 is situated in trace and its a middleware company)",
+                                + "sample test string and WSO2 is situated in trace and it's a middleware company)",
                         description = "This method attempts to match the 'inputSequence' against the regex pattern, " +
                                 "WSO2(.*)middleware(.*) from the beginning. Since it does not match, the function " +
                                 "returns false."
