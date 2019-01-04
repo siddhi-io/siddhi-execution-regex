@@ -100,7 +100,7 @@ import java.util.regex.Pattern;
                                 + "insert into OutputStream;\n",
                         description = "This method attempts to find the subsequence of the 'inputSequence' "
                                 + "that matches the regex  pattern, \\d\\d(.*)WSO2 . " +
-                                "It returns false as a subsequence does not exist."
+                                "It returns 'false' as a subsequence does not exist."
                 ),
                 @Example(
                         syntax = "define stream InputStream (inputSequence string, price long, regex string);\n"
@@ -111,7 +111,7 @@ import java.util.regex.Pattern;
                                 + "insert into OutputStream;\n",
                         description = "This method attempts to find the subsequence of the 'inputSequence' "
                                 + "that matches the regex pattern, \\d\\d(.*)WSO2 starting from index 30. "
-                                + "It returns true since a subsequence exists."
+                                + "It returns 'true' since a subsequence exists."
                 )
         }
 )
