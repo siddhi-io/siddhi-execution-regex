@@ -19,20 +19,22 @@
 package org.wso2.extension.siddhi.execution.regex;
 
 
+import io.siddhi.annotation.Example;
+import io.siddhi.annotation.Extension;
+import io.siddhi.annotation.Parameter;
+import io.siddhi.annotation.ReturnAttribute;
+import io.siddhi.annotation.util.DataType;
+import io.siddhi.core.config.SiddhiQueryContext;
+import io.siddhi.core.exception.SiddhiAppRuntimeException;
+import io.siddhi.core.executor.ConstantExpressionExecutor;
+import io.siddhi.core.executor.ExpressionExecutor;
+import io.siddhi.core.executor.function.FunctionExecutor;
+import io.siddhi.core.util.config.ConfigReader;
+import io.siddhi.core.util.snapshot.state.State;
+import io.siddhi.core.util.snapshot.state.StateFactory;
+import io.siddhi.query.api.definition.Attribute;
+import io.siddhi.query.api.exception.SiddhiAppValidationException;
 import org.apache.log4j.Logger;
-import org.wso2.siddhi.annotation.Example;
-import org.wso2.siddhi.annotation.Extension;
-import org.wso2.siddhi.annotation.Parameter;
-import org.wso2.siddhi.annotation.ReturnAttribute;
-import org.wso2.siddhi.annotation.util.DataType;
-import org.wso2.siddhi.core.config.SiddhiAppContext;
-import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
-import org.wso2.siddhi.core.executor.ConstantExpressionExecutor;
-import org.wso2.siddhi.core.executor.ExpressionExecutor;
-import org.wso2.siddhi.core.executor.function.FunctionExecutor;
-import org.wso2.siddhi.core.util.config.ConfigReader;
-import org.wso2.siddhi.query.api.definition.Attribute;
-import org.wso2.siddhi.query.api.exception.SiddhiAppValidationException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -92,7 +94,7 @@ import java.util.regex.Pattern;
                 )
         }
 )
-public class LookingAtFunctionExtension extends FunctionExecutor {
+public class LookingAtFunctionExtension extends FunctionExecutor<LookingAtFunctionExtension.ExtensionState> {
     private Attribute.Type returnType = Attribute.Type.BOOL;
     private static final Logger log = Logger.getLogger(LookingAtFunctionExtension.class);
 
@@ -102,46 +104,48 @@ public class LookingAtFunctionExtension extends FunctionExecutor {
     private Pattern patternConstant;
 
     @Override
-    protected void init(ExpressionExecutor[] expressionExecutors, ConfigReader configReader,
-                        SiddhiAppContext siddhiAppContext) {
+    protected StateFactory<ExtensionState> init(ExpressionExecutor[] expressionExecutors,
+                                                ConfigReader configReader,
+                                                SiddhiQueryContext siddhiQueryContext) {
         if (attributeExpressionExecutors.length != 2) {
             throw new SiddhiAppValidationException("Invalid no of arguments passed to regex:lookingAt() " +
-                                                   "function, " + "required 2, " + "but found " +
-                                                   attributeExpressionExecutors.length);
+                    "function, " + "required 2, " + "but found " +
+                    attributeExpressionExecutors.length);
         }
         if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
             throw new SiddhiAppValidationException("Invalid parameter type found for the first argument of " +
-                                                   "regex:lookingAt() function, " + "required " +
-                                                   Attribute.Type.STRING + ", but found " +
-                                                   attributeExpressionExecutors[0].getReturnType().toString());
+                    "regex:lookingAt() function, " + "required " +
+                    Attribute.Type.STRING + ", but found " +
+                    attributeExpressionExecutors[0].getReturnType().toString());
         }
         if (attributeExpressionExecutors[1].getReturnType() != Attribute.Type.STRING) {
             throw new SiddhiAppValidationException("Invalid parameter type found for the second argument of " +
-                                                   "regex:lookingAt() function, " + "required " +
-                                                   Attribute.Type.STRING + ", but found " +
-                                                   attributeExpressionExecutors[1].getReturnType().toString());
+                    "regex:lookingAt() function, " + "required " +
+                    Attribute.Type.STRING + ", but found " +
+                    attributeExpressionExecutors[1].getReturnType().toString());
         }
         if (attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor) {
             isRegexConstant = true;
             regexConstant = (String) ((ConstantExpressionExecutor) attributeExpressionExecutors[0]).getValue();
             patternConstant = Pattern.compile(regexConstant);
         }
+        return () -> new ExtensionState();
     }
 
     @Override
-    protected Object execute(Object[] data) {
+    protected Object execute(Object[] data, ExtensionState extensionState) {
         String regex;
         Pattern pattern;
         Matcher matcher;
 
         if (data[0] == null) {
             throw new SiddhiAppRuntimeException("Invalid input given to regex:lookingAt() function. " +
-                                                "First argument cannot be null");
+                    "First argument cannot be null");
         }
         if (data[1] == null) {
             if (log.isDebugEnabled()) {
                 log.warn("Invalid input given to regex:lookingAt() function. Second argument cannot be null, " +
-                         "returning false");
+                        "returning false");
             }
             return false;
         }
@@ -160,7 +164,7 @@ public class LookingAtFunctionExtension extends FunctionExecutor {
     }
 
     @Override
-    protected Object execute(Object data) {
+    protected Object execute(Object o, ExtensionState extensionState) {
         return null;  //Since the lookingAt function takes in 2 parameters, this method does not
         // get called. Hence, not implemented.
     }
@@ -170,19 +174,27 @@ public class LookingAtFunctionExtension extends FunctionExecutor {
         return returnType;
     }
 
-    @Override
-    public Map<String, Object> currentState() {
-        Map<String, Object> stateMap = new HashMap<>(3);
-        stateMap.put("isRegexConstant", isRegexConstant);
-        stateMap.put("regexConstant", regexConstant);
-        stateMap.put("patternConstant", patternConstant);
-        return stateMap;
-    }
+    class ExtensionState extends State {
 
-    @Override
-    public void restoreState(Map<String, Object> state) {
-        isRegexConstant = (Boolean) state.get("isRegexConstant");
-        regexConstant = (String) state.get("regexConstant");
-        patternConstant = (Pattern) state.get("patternConstant");
+        @Override
+        public boolean canDestroy() {
+            return false;
+        }
+
+        @Override
+        public Map<String, Object> snapshot() {
+            Map<String, Object> stateMap = new HashMap<>(3);
+            stateMap.put("isRegexConstant", isRegexConstant);
+            stateMap.put("regexConstant", regexConstant);
+            stateMap.put("patternConstant", patternConstant);
+            return stateMap;
+        }
+
+        @Override
+        public void restore(Map<String, Object> state) {
+            isRegexConstant = (Boolean) state.get("isRegexConstant");
+            regexConstant = (String) state.get("regexConstant");
+            patternConstant = (Pattern) state.get("patternConstant");
+        }
     }
 }

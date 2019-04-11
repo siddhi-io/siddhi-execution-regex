@@ -18,19 +18,21 @@
 
 package org.wso2.extension.siddhi.execution.regex;
 
-import org.wso2.siddhi.annotation.Example;
-import org.wso2.siddhi.annotation.Extension;
-import org.wso2.siddhi.annotation.Parameter;
-import org.wso2.siddhi.annotation.ReturnAttribute;
-import org.wso2.siddhi.annotation.util.DataType;
-import org.wso2.siddhi.core.config.SiddhiAppContext;
-import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
-import org.wso2.siddhi.core.executor.ConstantExpressionExecutor;
-import org.wso2.siddhi.core.executor.ExpressionExecutor;
-import org.wso2.siddhi.core.executor.function.FunctionExecutor;
-import org.wso2.siddhi.core.util.config.ConfigReader;
-import org.wso2.siddhi.query.api.definition.Attribute;
-import org.wso2.siddhi.query.api.exception.SiddhiAppValidationException;
+import io.siddhi.annotation.Example;
+import io.siddhi.annotation.Extension;
+import io.siddhi.annotation.Parameter;
+import io.siddhi.annotation.ReturnAttribute;
+import io.siddhi.annotation.util.DataType;
+import io.siddhi.core.config.SiddhiQueryContext;
+import io.siddhi.core.exception.SiddhiAppRuntimeException;
+import io.siddhi.core.executor.ConstantExpressionExecutor;
+import io.siddhi.core.executor.ExpressionExecutor;
+import io.siddhi.core.executor.function.FunctionExecutor;
+import io.siddhi.core.util.config.ConfigReader;
+import io.siddhi.core.util.snapshot.state.State;
+import io.siddhi.core.util.snapshot.state.StateFactory;
+import io.siddhi.query.api.definition.Attribute;
+import io.siddhi.query.api.exception.SiddhiAppValidationException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,7 +91,7 @@ import java.util.regex.Pattern;
                 )
         }
 )
-public class GroupFunctionExtension extends FunctionExecutor {
+public class GroupFunctionExtension extends FunctionExecutor<GroupFunctionExtension.ExtensionState> {
     private Attribute.Type returnType = Attribute.Type.STRING;
 
     //state-variables
@@ -98,54 +100,56 @@ public class GroupFunctionExtension extends FunctionExecutor {
     private Pattern patternConstant;
 
     @Override
-    protected void init(ExpressionExecutor[] expressionExecutors, ConfigReader configReader,
-                        SiddhiAppContext siddhiAppContext) {
+    protected StateFactory<ExtensionState> init(ExpressionExecutor[] expressionExecutors,
+                                                ConfigReader configReader,
+                                                SiddhiQueryContext siddhiQueryContext) {
         if (attributeExpressionExecutors.length != 3) {
             throw new SiddhiAppValidationException("Invalid no of arguments passed to regex:group() function, " +
-                                                   "required 3, but found " + attributeExpressionExecutors.length);
+                    "required 3, but found " + attributeExpressionExecutors.length);
         }
         if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
             throw new SiddhiAppValidationException("Invalid parameter type found for the first argument of " +
-                                                   "str:group() function, " + "required " + Attribute.Type.STRING +
-                                                   ", but found " +
-                                                   attributeExpressionExecutors[0].getReturnType().toString());
+                    "str:group() function, " + "required " + Attribute.Type.STRING +
+                    ", but found " +
+                    attributeExpressionExecutors[0].getReturnType().toString());
         }
         if (attributeExpressionExecutors[1].getReturnType() != Attribute.Type.STRING) {
             throw new SiddhiAppValidationException("Invalid parameter type found for the second argument of " +
-                                                   "str:group() function, " + "required " + Attribute.Type.STRING +
-                                                   ", but found " +
-                                                   attributeExpressionExecutors[1].getReturnType().toString());
+                    "str:group() function, " + "required " + Attribute.Type.STRING +
+                    ", but found " +
+                    attributeExpressionExecutors[1].getReturnType().toString());
         }
         if (attributeExpressionExecutors[2].getReturnType() != Attribute.Type.INT) {
             throw new SiddhiAppValidationException("Invalid parameter type found for the third argument of " +
-                                                   "str:group() function, " + "required " + Attribute.Type.INT +
-                                                   ", but found " +
-                                                   attributeExpressionExecutors[1].getReturnType().toString());
+                    "str:group() function, " + "required " + Attribute.Type.INT +
+                    ", but found " +
+                    attributeExpressionExecutors[1].getReturnType().toString());
         }
         if (attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor) {
             isRegexConstant = true;
             regexConstant = (String) ((ConstantExpressionExecutor) attributeExpressionExecutors[0]).getValue();
             patternConstant = Pattern.compile(regexConstant);
         }
+        return () -> new ExtensionState();
     }
 
     @Override
-    protected Object execute(Object[] data) {
+    protected Object execute(Object[] data, ExtensionState extensionState) {
         String regex;
         Pattern pattern;
         Matcher matcher;
 
         if (data[0] == null) {
             throw new SiddhiAppRuntimeException("Invalid input given to regex:group() function. First argument " +
-                                                "cannot be null");
+                    "cannot be null");
         }
         if (data[1] == null) {
             throw new SiddhiAppRuntimeException("Invalid input given to regex:group() function. Second " +
-                                                "argument cannot be null");
+                    "argument cannot be null");
         }
         if (data[2] == null) {
             throw new SiddhiAppRuntimeException("Invalid input given to regex:group() function. Third " +
-                                                "argument cannot be null");
+                    "argument cannot be null");
         }
         String source = (String) data[1];
         int groupId;
@@ -153,7 +157,7 @@ public class GroupFunctionExtension extends FunctionExecutor {
             groupId = (Integer) data[2];
         } catch (ClassCastException ex) {
             throw new SiddhiAppRuntimeException("Invalid input given to regex:group() function. " +
-                                                "Third argument should be an integer");
+                    "Third argument should be an integer");
         }
 
         if (!isRegexConstant) {
@@ -174,7 +178,7 @@ public class GroupFunctionExtension extends FunctionExecutor {
     }
 
     @Override
-    protected Object execute(Object data) {
+    protected Object execute(Object data, ExtensionState extensionState) {
         return null; //Since the group function takes in 3 parameters, this method does not
         // get called. Hence, not implemented.
     }
@@ -184,20 +188,27 @@ public class GroupFunctionExtension extends FunctionExecutor {
         return returnType;
     }
 
-    @Override
-    public Map<String, Object> currentState() {
-        Map<String, Object> stateMap = new HashMap<>(3);
-        stateMap.put("isRegexConstant", isRegexConstant);
-        stateMap.put("regexConstant", regexConstant);
-        stateMap.put("patternConstant", patternConstant);
-        return stateMap;
-    }
+    class ExtensionState extends State {
 
-    @Override
-    public void restoreState(Map<String, Object> state) {
-        isRegexConstant = (Boolean) state.get("isRegexConstant");
-        regexConstant = (String) state.get("regexConstant");
-        patternConstant = (Pattern) state.get("patternConstant");
-    }
+        @Override
+        public boolean canDestroy() {
+            return false;
+        }
 
+        @Override
+        public Map<String, Object> snapshot() {
+            Map<String, Object> stateMap = new HashMap<>(3);
+            stateMap.put("isRegexConstant", isRegexConstant);
+            stateMap.put("regexConstant", regexConstant);
+            stateMap.put("patternConstant", patternConstant);
+            return stateMap;
+        }
+
+        @Override
+        public void restore(Map<String, Object> state) {
+            isRegexConstant = (Boolean) state.get("isRegexConstant");
+            regexConstant = (String) state.get("regexConstant");
+            patternConstant = (Pattern) state.get("patternConstant");
+        }
+    }
 }
