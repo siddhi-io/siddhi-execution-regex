@@ -100,7 +100,7 @@ public class GroupFunctionExtension extends FunctionExecutor<GroupFunctionExtens
     private Pattern patternConstant;
 
     @Override
-    protected StateFactory<ExtensionState> init(ExpressionExecutor[] expressionExecutors,
+    protected StateFactory<ExtensionState> init(ExpressionExecutor[] attributeExpressionExecutors,
                                                 ConfigReader configReader,
                                                 SiddhiQueryContext siddhiQueryContext) {
         if (attributeExpressionExecutors.length != 3) {

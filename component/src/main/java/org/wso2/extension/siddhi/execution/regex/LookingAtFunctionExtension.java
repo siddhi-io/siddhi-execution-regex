@@ -104,7 +104,7 @@ public class LookingAtFunctionExtension extends FunctionExecutor<LookingAtFuncti
     private Pattern patternConstant;
 
     @Override
-    protected StateFactory<ExtensionState> init(ExpressionExecutor[] expressionExecutors,
+    protected StateFactory<ExtensionState> init(ExpressionExecutor[] attributeExpressionExecutors,
                                                 ConfigReader configReader,
                                                 SiddhiQueryContext siddhiQueryContext) {
         if (attributeExpressionExecutors.length != 2) {

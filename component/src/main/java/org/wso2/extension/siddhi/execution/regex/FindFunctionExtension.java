@@ -125,7 +125,7 @@ public class FindFunctionExtension extends FunctionExecutor<FindFunctionExtensio
     private Pattern patternConstant;
 
     @Override
-    protected StateFactory<ExtensionState> init(ExpressionExecutor[] expressionExecutors,
+    protected StateFactory<ExtensionState> init(ExpressionExecutor[] attributeExpressionExecutors,
                                                 ConfigReader configReader,
                                                 SiddhiQueryContext siddhiQueryContext) {
         if (attributeExpressionExecutors.length != 2 && attributeExpressionExecutors.length != 3) {
