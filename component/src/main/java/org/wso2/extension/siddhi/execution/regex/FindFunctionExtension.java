@@ -120,9 +120,6 @@ import java.util.regex.Pattern;
 public class FindFunctionExtension extends FunctionExecutor<FindFunctionExtension.ExtensionState> {
     private static final Logger log = Logger.getLogger(FindFunctionExtension.class);
     private Attribute.Type returnType = Attribute.Type.BOOL;
-    private boolean isRegexConstant = false;
-    private String regexConstant;
-    private Pattern patternConstant;
 
     @Override
     protected StateFactory<ExtensionState> init(ExpressionExecutor[] attributeExpressionExecutors,
@@ -157,11 +154,11 @@ public class FindFunctionExtension extends FunctionExecutor<FindFunctionExtensio
         }
 
         if (attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor) {
-            isRegexConstant = true;
-            regexConstant = (String) ((ConstantExpressionExecutor) attributeExpressionExecutors[0]).getValue();
-            patternConstant = Pattern.compile(regexConstant);
+            String regexConstant = (String) ((ConstantExpressionExecutor) attributeExpressionExecutors[0]).getValue();
+            Pattern patternConstant = Pattern.compile(regexConstant);
+            return () -> new ExtensionState(true, regexConstant, patternConstant);
         }
-        return () -> new ExtensionState();
+        return () -> new ExtensionState(false, null, null);
     }
 
     @Override
@@ -184,13 +181,13 @@ public class FindFunctionExtension extends FunctionExecutor<FindFunctionExtensio
 
         String source = (String) data[1];
 
-        if (!isRegexConstant) {
+        if (!extensionState.isRegexConstant) {
             regex = (String) data[0];
             pattern = Pattern.compile(regex);
             matcher = pattern.matcher(source);
 
         } else {
-            matcher = patternConstant.matcher(source);
+            matcher = extensionState.patternConstant.matcher(source);
 
         }
 
@@ -226,7 +223,17 @@ public class FindFunctionExtension extends FunctionExecutor<FindFunctionExtensio
         return returnType;
     }
 
-    class ExtensionState extends State {
+    static class ExtensionState extends State {
+
+        private boolean isRegexConstant;
+        private String regexConstant;
+        private Pattern patternConstant;
+
+        private ExtensionState(boolean isRegexConstant, String regexConstant, Pattern patternConstant) {
+            this.isRegexConstant = isRegexConstant;
+            this.regexConstant = regexConstant;
+            this.patternConstant = patternConstant;
+        }
 
         @Override
         public boolean canDestroy() {

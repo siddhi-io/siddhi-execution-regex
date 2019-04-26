@@ -94,11 +94,6 @@ import java.util.regex.Pattern;
 public class GroupFunctionExtension extends FunctionExecutor<GroupFunctionExtension.ExtensionState> {
     private Attribute.Type returnType = Attribute.Type.STRING;
 
-    //state-variables
-    private boolean isRegexConstant = false;
-    private String regexConstant;
-    private Pattern patternConstant;
-
     @Override
     protected StateFactory<ExtensionState> init(ExpressionExecutor[] attributeExpressionExecutors,
                                                 ConfigReader configReader,
@@ -126,11 +121,11 @@ public class GroupFunctionExtension extends FunctionExecutor<GroupFunctionExtens
                     attributeExpressionExecutors[1].getReturnType().toString());
         }
         if (attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor) {
-            isRegexConstant = true;
-            regexConstant = (String) ((ConstantExpressionExecutor) attributeExpressionExecutors[0]).getValue();
-            patternConstant = Pattern.compile(regexConstant);
+            String regexConstant = (String) ((ConstantExpressionExecutor) attributeExpressionExecutors[0]).getValue();
+            Pattern patternConstant = Pattern.compile(regexConstant);
+            return () -> new GroupFunctionExtension.ExtensionState(true, regexConstant, patternConstant);
         }
-        return () -> new ExtensionState();
+        return () -> new ExtensionState(false, null, null);
     }
 
     @Override
@@ -160,12 +155,12 @@ public class GroupFunctionExtension extends FunctionExecutor<GroupFunctionExtens
                     "Third argument should be an integer");
         }
 
-        if (!isRegexConstant) {
+        if (!extensionState.isRegexConstant) {
             regex = (String) data[0];
             pattern = Pattern.compile(regex);
             matcher = pattern.matcher(source);
         } else {
-            matcher = patternConstant.matcher(source);
+            matcher = extensionState.patternConstant.matcher(source);
         }
 
         if (matcher.find() && groupId <= matcher.groupCount()) {
@@ -188,7 +183,17 @@ public class GroupFunctionExtension extends FunctionExecutor<GroupFunctionExtens
         return returnType;
     }
 
-    class ExtensionState extends State {
+    static class ExtensionState extends State {
+
+        private boolean isRegexConstant;
+        private String regexConstant;
+        private Pattern patternConstant;
+
+        private ExtensionState(boolean isRegexConstant, String regexConstant, Pattern patternConstant) {
+            this.isRegexConstant = isRegexConstant;
+            this.regexConstant = regexConstant;
+            this.patternConstant = patternConstant;
+        }
 
         @Override
         public boolean canDestroy() {
