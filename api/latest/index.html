@@ -106,7 +106,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#api-docs-v412" tabindex="1" class="md-skip">
+      <a href="#api-docs-v501" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -282,8 +282,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../4.1.2/" title="4.1.2" class="md-nav__link">
-      4.1.2
+    <a href="../5.0.1/" title="5.0.1" class="md-nav__link">
+      5.0.1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../5.0.0/" title="5.0.0" class="md-nav__link">
+      5.0.0
     </a>
   </li>
 
@@ -637,9 +649,9 @@
                   <a href="https://github.com/wso2-extensions/siddhi-execution-regex/edit/master/docs/api/latest.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="api-docs-v412">API Docs - v4.1.2<a class="headerlink" href="#api-docs-v412" title="Permanent link">&para;</a></h1>
+                <h1 id="api-docs-v501">API Docs - v5.0.1<a class="headerlink" href="#api-docs-v501" title="Permanent link">&para;</a></h1>
 <h2 id="regex">Regex<a class="headerlink" href="#regex" title="Permanent link">&para;</a></h2>
-<h3 id="find-function">find <em><a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a></em><a class="headerlink" href="#find-function" title="Permanent link">&para;</a></h3>
+<h3 id="find-function">find <em><a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#function">(Function)</a></em><a class="headerlink" href="#find-function" title="Permanent link">&para;</a></h3>
 <p style="word-wrap: break-word">These methods attempt to find the subsequence of the 'inputSequence' that matches the given 'regex' pattern.</p>
 
 <p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
@@ -710,7 +722,7 @@ from InputStream select inputSequence , regex:find(\d\d(.*)WSO2, 21 products are
 
 <p style="word-wrap: break-word">This method attempts to find the subsequence of the 'inputSequence' that matches the regex pattern, \d\d(.*)WSO2 starting from index 30. It returns 'true' since a subsequence exists.</p>
 
-<h3 id="group-function">group <em><a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a></em><a class="headerlink" href="#group-function" title="Permanent link">&para;</a></h3>
+<h3 id="group-function">group <em><a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#function">(Function)</a></em><a class="headerlink" href="#group-function" title="Permanent link">&para;</a></h3>
 <p style="word-wrap: break-word">This method returns the input subsequence captured by the given group during the previous match operation.</p>
 
 <p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
@@ -764,7 +776,7 @@ from InputStream select inputSequence, regex:group(\d\d(.*)(WSO2.*), 21 products
 
 <p style="word-wrap: break-word">This function returns 'WSO2 employees', the input subsequence captured within the given groupID, 3 after grouping the 'inputSequence' according to the regex pattern, \d\d(.*)(WSO2.*). </p>
 
-<h3 id="lookingat-function">lookingAt <em><a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a></em><a class="headerlink" href="#lookingat-function" title="Permanent link">&para;</a></h3>
+<h3 id="lookingat-function">lookingAt <em><a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#function">(Function)</a></em><a class="headerlink" href="#lookingat-function" title="Permanent link">&para;</a></h3>
 <p style="word-wrap: break-word">This method attempts to match the 'inputSequence', from the beginning, against the 'regex' pattern.</p>
 
 <p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
@@ -818,7 +830,7 @@ from InputStream select inputSequence, regex:lookingAt(WSO2(.*)middleware(.*), s
 
 <p style="word-wrap: break-word">This method attempts to match the 'inputSequence' against the regex pattern, WSO2(.*)middleware(.*) from the beginning. Since it does not match, the function returns false.</p>
 
-<h3 id="matches-function">matches <em><a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#function">(Function)</a></em><a class="headerlink" href="#matches-function" title="Permanent link">&para;</a></h3>
+<h3 id="matches-function">matches <em><a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#function">(Function)</a></em><a class="headerlink" href="#matches-function" title="Permanent link">&para;</a></h3>
 <p style="word-wrap: break-word">This method attempts to match the entire 'inputSequence' against the 'regex' pattern.</p>
 
 <p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>

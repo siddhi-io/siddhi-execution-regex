@@ -6,7 +6,12 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://wso2-extensions.github.io/siddhi-execution-regex/api/4.1.2/</loc>
+     <loc>https://wso2-extensions.github.io/siddhi-execution-regex/api/5.0.1/</loc>
+     <lastmod>2019-04-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://wso2-extensions.github.io/siddhi-execution-regex/api/5.0.0/</loc>
      <lastmod>2019-04-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
