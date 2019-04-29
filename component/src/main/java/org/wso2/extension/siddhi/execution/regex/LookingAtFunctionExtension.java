@@ -98,13 +98,8 @@ public class LookingAtFunctionExtension extends FunctionExecutor<LookingAtFuncti
     private Attribute.Type returnType = Attribute.Type.BOOL;
     private static final Logger log = Logger.getLogger(LookingAtFunctionExtension.class);
 
-    //state-variables
-    private boolean isRegexConstant = false;
-    private String regexConstant;
-    private Pattern patternConstant;
-
     @Override
-    protected StateFactory<ExtensionState> init(ExpressionExecutor[] expressionExecutors,
+    protected StateFactory<ExtensionState> init(ExpressionExecutor[] attributeExpressionExecutors,
                                                 ConfigReader configReader,
                                                 SiddhiQueryContext siddhiQueryContext) {
         if (attributeExpressionExecutors.length != 2) {
@@ -125,11 +120,11 @@ public class LookingAtFunctionExtension extends FunctionExecutor<LookingAtFuncti
                     attributeExpressionExecutors[1].getReturnType().toString());
         }
         if (attributeExpressionExecutors[0] instanceof ConstantExpressionExecutor) {
-            isRegexConstant = true;
-            regexConstant = (String) ((ConstantExpressionExecutor) attributeExpressionExecutors[0]).getValue();
-            patternConstant = Pattern.compile(regexConstant);
+            String regexConstant = (String) ((ConstantExpressionExecutor) attributeExpressionExecutors[0]).getValue();
+            Pattern patternConstant = Pattern.compile(regexConstant);
+            return () -> new ExtensionState(true, regexConstant, patternConstant);
         }
-        return () -> new ExtensionState();
+        return () -> new ExtensionState(false, null, null);
     }
 
     @Override
@@ -151,14 +146,14 @@ public class LookingAtFunctionExtension extends FunctionExecutor<LookingAtFuncti
         }
         String source = (String) data[1];
 
-        if (!isRegexConstant) {
+        if (!extensionState.isRegexConstant) {
             regex = (String) data[0];
             pattern = Pattern.compile(regex);
             matcher = pattern.matcher(source);
             return matcher.lookingAt();
 
         } else {
-            matcher = patternConstant.matcher(source);
+            matcher = extensionState.patternConstant.matcher(source);
             return matcher.lookingAt();
         }
     }
@@ -174,8 +169,17 @@ public class LookingAtFunctionExtension extends FunctionExecutor<LookingAtFuncti
         return returnType;
     }
 
-    class ExtensionState extends State {
+    static class ExtensionState extends State {
 
+        private boolean isRegexConstant;
+        private String regexConstant;
+        private Pattern patternConstant;
+
+        private ExtensionState(boolean isRegexConstant, String regexConstant, Pattern patternConstant) {
+            this.isRegexConstant = isRegexConstant;
+            this.regexConstant = regexConstant;
+            this.patternConstant = patternConstant;
+        }
         @Override
         public boolean canDestroy() {
             return false;
