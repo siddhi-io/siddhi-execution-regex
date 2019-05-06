@@ -28,7 +28,7 @@ Latest API Docs is <a target="_blank" href="https://wso2-extensions.github.io/si
 
 ```
      <dependency>
-        <groupId>org.wso2.extension.siddhi.execution.regex</groupId>
+        <groupId>io.siddhi.extension.execution.regex</groupId>
         <artifactId>siddhi-execution-regex</artifactId>
         <version>x.x.x</version>
      </dependency>
