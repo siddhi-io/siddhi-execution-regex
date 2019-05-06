@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.extension.siddhi.execution.regex;
+package io.siddhi.extension.execution.regex;
 
 import io.siddhi.core.SiddhiAppRuntime;
 import io.siddhi.core.SiddhiManager;
@@ -25,64 +25,64 @@ import io.siddhi.core.stream.input.InputHandler;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
-public class LookingAtFunctionExtensionTestCase {
-    private static final Logger log = Logger.getLogger(LookingAtFunctionExtensionTestCase.class);
+public class MatchesFunctionExtensionTestCase {
+    private static final Logger log = Logger.getLogger(MatchesFunctionExtensionTestCase.class);
 
-    @Test(expectedExceptions = SiddhiAppCreationException.class)
-    public void testLookingAtFunctionExtension1() throws InterruptedException {
-        log.info("LookingAtFunctionExtension TestCase with invalid number of arguments");
+    @Test (expectedExceptions = SiddhiAppCreationException.class)
+    public void testMatchesFunctionExtension1() throws InterruptedException {
+        log.info("MatchesFunctionExtension TestCase with invalid number of arguments");
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String inStreamDefinition = "define stream inputStream (symbol string, price long, regex string);";
         String query = ("@info(name = 'query1') " +
                 "from inputStream " +
-                "select symbol , regex:lookingAt(regex) as aboutWSO2 " +
+                "select symbol , regex:matches(regex) as aboutWSO2 " +
                 "insert into outputStream;");
         siddhiManager.createSiddhiAppRuntime(inStreamDefinition + query);
     }
 
-    @Test(expectedExceptions = SiddhiAppCreationException.class)
-    public void testLookingAtFunctionExtension2() throws InterruptedException {
-        log.info("LookingAtFunctionExtension TestCase with invalid datatype");
+    @Test (expectedExceptions = SiddhiAppCreationException.class)
+    public void testMatchesFunctionExtension2() throws InterruptedException {
+        log.info("MatchesFunctionExtension TestCase with invalid datatype");
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String inStreamDefinition = "define stream inputStream (symbol string, price long, regex int);";
         String query = ("@info(name = 'query1') " +
                 "from inputStream " +
-                "select symbol , regex:lookingAt(regex, symbol) as aboutWSO2 " +
+                "select symbol , regex:matches(regex, symbol) as aboutWSO2 " +
                 "insert into outputStream;");
-        siddhiManager.createSiddhiAppRuntime(inStreamDefinition + query);
+       siddhiManager.createSiddhiAppRuntime(inStreamDefinition + query);
     }
 
-    @Test(expectedExceptions = SiddhiAppCreationException.class)
-    public void testLookingAtFunctionExtension3() throws InterruptedException {
-        log.info("LookingAtFunctionExtension TestCase with invalid datatype");
+    @Test (expectedExceptions = SiddhiAppCreationException.class)
+    public void testMatchesFunctionExtension3() throws InterruptedException {
+        log.info("MatchesFunctionExtension TestCase with invalid datatype");
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String inStreamDefinition = "define stream inputStream (symbol int, price long, regex string);";
         String query = ("@info(name = 'query1') " +
                 "from inputStream " +
-                "select symbol , regex:lookingAt(regex, symbol) as aboutWSO2 " +
+                "select symbol , regex:matches(regex, symbol) as aboutWSO2 " +
                 "insert into outputStream;");
         siddhiManager.createSiddhiAppRuntime(inStreamDefinition + query);
     }
 
     @Test
-    public void testLookingAtFunctionExtension4() throws InterruptedException {
-        log.info("LookingAtFunctionExtension TestCase with null value");
+    public void testMatchesFunctionExtension4() throws InterruptedException {
+        log.info("MatchesFunctionExtension TestCase with null value");
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String inStreamDefinition = "define stream inputStream (symbol string, price long, regex string);";
         String query = ("@info(name = 'query1') " +
                 "from inputStream " +
-                "select symbol , regex:lookingAt(regex, symbol) as aboutWSO2 " +
+                "select symbol , regex:matches(regex, symbol) as aboutWSO2 " +
                 "insert into outputStream;");
         SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(inStreamDefinition + query);
 
         InputHandler inputHandler = siddhiAppRuntime.getInputHandler("inputStream");
         siddhiAppRuntime.start();
-        inputHandler.send(new Object[]{"WSO2 is situated in trace and its a middleware company", 60.5f,
-                                       null});
+        inputHandler.send(new Object[]{"21 products are produced by WSO2 currently", 60.5f, null});
         siddhiAppRuntime.shutdown();
     }
+
 }

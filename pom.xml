@@ -25,7 +25,7 @@
         <version>5</version>
     </parent>
 
-    <groupId>org.wso2.extension.siddhi.execution.regex</groupId>
+    <groupId>io.siddhi.extension.execution.regex</groupId>
     <artifactId>siddhi-execution-regex-parent</artifactId>
     <version>5.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
