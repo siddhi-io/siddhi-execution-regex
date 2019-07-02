@@ -22,6 +22,7 @@ package io.siddhi.extension.execution.regex;
 import io.siddhi.annotation.Example;
 import io.siddhi.annotation.Extension;
 import io.siddhi.annotation.Parameter;
+import io.siddhi.annotation.ParameterOverload;
 import io.siddhi.annotation.ReturnAttribute;
 import io.siddhi.annotation.util.DataType;
 import io.siddhi.core.config.SiddhiQueryContext;
@@ -42,6 +43,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Class representing the Regex LookingAt implementation.
+ *
  * lookingAt(regex, input.sequence)
  * This method attempts to match the 'inputSequence', starting at the beginning, against the 'regex' pattern.
  * regex - regular expression. eg: "\d\d(.*)WSO2"
@@ -51,10 +54,6 @@ import java.util.regex.Pattern;
  * input.sequence : STRING
  * Return Type(s): BOOLEAN
  */
-
-/**
- * Class representing the Regex LookingAt implementation.
- */
 @Extension(
         name = "lookingAt",
         namespace = "regex",
@@ -63,11 +62,16 @@ import java.util.regex.Pattern;
         parameters = {
                 @Parameter(name = "regex",
                         description = "A regular expression. For example, `\\d\\d(.*)WSO2`.",
-                        type = {DataType.STRING}),
+                        type = {DataType.STRING},
+                        dynamic = true),
                 @Parameter(name = "input.sequence",
                         description = "The input sequence to be matched with the regular expression. "
                                 + "For example, `21 products are produced by WSO2`.",
-                        type = {DataType.STRING})
+                        type = {DataType.STRING},
+                        dynamic = true)
+        },
+        parameterOverloads = {
+                @ParameterOverload(parameterNames = {"regex", "input.sequence"})
         },
         returnAttributes = @ReturnAttribute(
                 description = "Returns `true` if a matching subsequence is available in the beginning of the " +
