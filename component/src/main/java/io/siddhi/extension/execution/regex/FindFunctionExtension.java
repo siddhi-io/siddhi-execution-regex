@@ -63,59 +63,41 @@ import java.util.regex.Pattern;
 @Extension(
         name = "find",
         namespace = "regex",
-        description = "These methods attempt to find the subsequence of the 'inputSequence' that matches "
-                + "the given 'regex' pattern.",
+        description = "Finds the subsequence that matches the given regex pattern.",
         parameters = {
                 @Parameter(name = "regex",
                         description = "A regular expression that is matched to a sequence in order " +
-                                "to find the subsequence of the same. For example, \\d\\d(.*)WSO2.",
+                                "to find the subsequence of the same. For example, `\\d\\d(.*)WSO2`.",
                         type = {DataType.STRING}),
                 @Parameter(name = "input.sequence",
                         description = "The input sequence to be matched with the regular expression. "
-                                + "For example, 21 products are produced by WSO2.",
+                                + "For example, `21 products are produced by WSO2`.",
                         type = {DataType.STRING}),
                 @Parameter(name = "starting.index",
                         description = "The starting index of the input sequence from where the input sequence is" +
                                 "matched with the given regex pattern."
-                                + " eg: 1, 2.",
+                                + "For example, `10`.",
                         type = {DataType.INT},
                         optional = true,
                         defaultValue = "0")
         },
         returnAttributes = @ReturnAttribute(
-                description = "The returned type is 'boolean' i.e., the returned value is either true or false.",
+                description = "Returns `true` if a matching subsequence is available in the input.sequence, " +
+                        "else return `false`.",
                 type = {DataType.BOOL}),
         examples = {
                 @Example(
-                        syntax = "define stream InputStream (inputSequence string, price long, regex string);\n"
-                                + "\n"
-                                + "from InputStream select inputSequence , "
-                                + "regex:find(\\d\\d(.*)WSO2, 21 products are produced by WSO2 currently) as aboutWSO2"
-                                + " insert into OutputStream;\n",
-                        description = "This method attempts to find the subsequence of the 'inputSequence' "
-                                + "that matches the regex pattern, \\d\\d(.*)WSO2. It returns true as a subsequence "
-                                + "exists."
+                        syntax = "regex:find('\\d\\d(.*)WSO2', " +
+                                "'21 products are produced by WSO2 currently') as aboutWSO2)",
+                        description = "This method attempts to find the subsequence of the input.sequence " +
+                                "that matches the regex pattern, `\\d\\d(.*)WSO2`. It returns `true` " +
+                                "as a subsequence exists."
                 ),
                 @Example(
-                        syntax = "define stream InputStream (inputSequence string, price long, regex string);\n"
-                                + "\n"
-                                + "from InputStream select inputSequence , "
-                                + "regex:find(\\d\\d(.*)WSO2, 21 products are produced currently) as aboutWSO2 "
-                                + "insert into OutputStream;\n",
-                        description = "This method attempts to find the subsequence of the 'inputSequence' "
-                                + "that matches the regex  pattern, \\d\\d(.*)WSO2 . " +
-                                "It returns 'false' as a subsequence does not exist."
-                ),
-                @Example(
-                        syntax = "define stream InputStream (inputSequence string, price long, regex string);\n"
-                                + "\n"
-                                + "from InputStream select inputSequence , "
-                                + "regex:find(\\d\\d(.*)WSO2, 21 products are produced within 10 years by WSO2 "
-                                + "currently by WSO2 employees, 30) as aboutWSO2 "
-                                + "insert into OutputStream;\n",
-                        description = "This method attempts to find the subsequence of the 'inputSequence' "
-                                + "that matches the regex pattern, \\d\\d(.*)WSO2 starting from index 30. "
-                                + "It returns 'true' since a subsequence exists."
+                        syntax = "regex:find('\\d\\d(.*)WSO2', '21 products are produced by WSO2.', 4)",
+                        description = "This method attempts to find the subsequence of the input.sequence "
+                                + "that matches the regex pattern, `\\d\\d(.*)WSO2` starting from index `4`. "
+                                + "It returns 'false' as subsequence does not exists."
                 )
         }
 )

@@ -58,35 +58,30 @@ import java.util.regex.Pattern;
 @Extension(
         name = "group",
         namespace = "regex",
-        description = "This method returns the input subsequence captured by the given group during the previous " +
+        description = "Returns the subsequence captured by the given group during the regex " +
                 "match operation.",
         parameters = {
                 @Parameter(name = "regex",
-                        description = "A regular expression. For example, \\d\\d(.*)WSO2.",
+                        description = "A regular expression. For example, `\\d\\d(.*)WSO2.`",
                         type = {DataType.STRING}),
                 @Parameter(name = "input.sequence",
                         description = "The input sequence to be matched with the regular expression. "
-                                + "For example, 21 products are produced by WSO2.",
+                                + "For example, 2`1 products are produced by WSO2`.",
                         type = {DataType.STRING}),
                 @Parameter(name = "group.id",
-                        description = "The given group id of the regex expression. For example, 0, 1, 2, etc.",
+                        description = "The given group id of the regex expression. For example, `2`.",
                         type = {DataType.INT})
         },
         returnAttributes = @ReturnAttribute(
-                description = "The returned value is of 'String' type.",
+                description = "The string matching the regex group.",
                 type = {DataType.STRING}),
         examples = {
                 @Example(
-                        syntax = "define stream InputStream (inputSequence string, price long, regex string,"
-                                + " group int);\n"
-                                + "\n"
-                                + "from InputStream select inputSequence, regex:group(\\d\\d(.*)(WSO2.*), "
-                                    + "21 products are produced within 10 years by WSO2 currently " +
-                                "by WSO2 employees, 3) \n "
-                                + "insert into OutputStream;",
-                        description = "This function returns 'WSO2 employees', the input subsequence captured" +
-                                " within the given groupID, 3 after grouping the 'inputSequence' according to " +
-                                "the regex pattern, \\d\\d(.*)(WSO2.*). "
+                        syntax = "regex:group('\\d\\d(.*)(WSO2.*)(WSO2.*)', "
+                                    + "'21 products are produced within 10 years by WSO2 currently " +
+                                "by WSO2 employees', 3)",
+                        description = "Function returns 'WSO2 employees', the subsequence captured by the  groupID 3 " +
+                                "according to the regex pattern, `\\d\\d(.*)(WSO2.*)(WSO2.*)`."
 
                 )
         }
