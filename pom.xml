@@ -29,7 +29,7 @@
     <artifactId>siddhi-execution-regex-parent</artifactId>
     <version>5.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>WSO2 Siddhi Execution Extension - Regex Aggregator Pom</name>
+    <name>WSO2 Siddhi Execution Extension - Regex Parent</name>
     <url>http://wso2.org</url>
 
     <profiles>
@@ -45,7 +45,7 @@
     </profiles>
 
     <properties>
-        <siddhi.version>5.0.0</siddhi.version>
+        <siddhi.version>5.0.2</siddhi.version>
         <siddhi.version.range>[5.0.0,6.0.0)</siddhi.version.range>
         <log4j.version>1.2.17.wso2v1</log4j.version>
         <testng.version>6.11</testng.version>

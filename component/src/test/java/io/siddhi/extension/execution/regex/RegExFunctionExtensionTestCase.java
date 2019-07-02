@@ -52,7 +52,7 @@ public class RegExFunctionExtensionTestCase {
         String inStreamDefinition = "define stream inputStream (symbol string, price long, regex string);";
         String query = ("@info(name = 'query1') " +
                         "from inputStream " +
-                        "select symbol , regex:find(regex, symbol) as aboutWSO2 " +
+                        "select symbol, regex:find(regex, symbol) as aboutWSO2 " +
                         "insert into outputStream;");
         SiddhiAppRuntime executionPlanRuntime =
                 siddhiManager.createSiddhiAppRuntime(inStreamDefinition + query);

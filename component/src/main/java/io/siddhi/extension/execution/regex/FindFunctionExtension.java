@@ -78,7 +78,9 @@ import java.util.regex.Pattern;
                         description = "The starting index of the input sequence from where the input sequence is" +
                                 "matched with the given regex pattern."
                                 + " eg: 1, 2.",
-                        type = {DataType.INT})
+                        type = {DataType.INT},
+                        optional = true,
+                        defaultValue = "0")
         },
         returnAttributes = @ReturnAttribute(
                 description = "The returned type is 'boolean' i.e., the returned value is either true or false.",
@@ -127,28 +129,28 @@ public class FindFunctionExtension extends FunctionExecutor<FindFunctionExtensio
                                                 SiddhiQueryContext siddhiQueryContext) {
         if (attributeExpressionExecutors.length != 2 && attributeExpressionExecutors.length != 3) {
             throw new SiddhiAppValidationException("Invalid no of arguments passed to regex:find() function, " +
-                                                   "required 2 or 3, " + "but found " +
-                                                   attributeExpressionExecutors.length);
+                    "required 2 or 3, " + "but found " +
+                    attributeExpressionExecutors.length);
         } else {
             if (attributeExpressionExecutors[0].getReturnType() != Attribute.Type.STRING) {
                 throw new SiddhiAppValidationException("Invalid parameter type found for the first argument of " +
-                                                       "regex:find() function, " + "required " +
-                                                       Attribute.Type.STRING + ", but found " +
-                                                       attributeExpressionExecutors[0].getReturnType().toString());
+                        "regex:find() function, " + "required " +
+                        Attribute.Type.STRING + ", but found " +
+                        attributeExpressionExecutors[0].getReturnType().toString());
             }
             if (attributeExpressionExecutors[1].getReturnType() != Attribute.Type.STRING) {
                 throw new SiddhiAppValidationException("Invalid parameter type found for the second argument of " +
-                                                       "regex:find() function, " + "required " +
-                                                       Attribute.Type.STRING + ", but found " +
-                                                       attributeExpressionExecutors[1].getReturnType().toString());
+                        "regex:find() function, " + "required " +
+                        Attribute.Type.STRING + ", but found " +
+                        attributeExpressionExecutors[1].getReturnType().toString());
             }
             if (attributeExpressionExecutors.length == 3) {
                 if (attributeExpressionExecutors[2].getReturnType() != Attribute.Type.INT) {
                     throw new SiddhiAppValidationException("Invalid parameter type found for the " + "third " +
-                                                           "argument of str:find() function, " +
-                                                           "required " + Attribute.Type.INT + ", but found " +
-                                                           attributeExpressionExecutors[1].
-                                                                   getReturnType().toString());
+                            "argument of str:find() function, " +
+                            "required " + Attribute.Type.INT + ", but found " +
+                            attributeExpressionExecutors[1].
+                                    getReturnType().toString());
                 }
             }
         }
