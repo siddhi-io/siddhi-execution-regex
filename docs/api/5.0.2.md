@@ -2,7 +2,7 @@
 
 ## Regex
 
-### find *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#function">(Function)</a>*
+### find *<a target="_blank" href="https://siddhi.io/en/v5.0/docs/query-guide/#function">(Function)</a>*
 
 <p style="word-wrap: break-word">These methods attempt to find the subsequence of the 'inputSequence' that matches the given 'regex' pattern.</p>
 
@@ -75,7 +75,7 @@ from InputStream select inputSequence , regex:find(\d\d(.*)WSO2, 21 products are
 ```
 <p style="word-wrap: break-word">This method attempts to find the subsequence of the 'inputSequence' that matches the regex pattern, \d\d(.*)WSO2 starting from index 30. It returns 'true' since a subsequence exists.</p>
 
-### group *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#function">(Function)</a>*
+### group *<a target="_blank" href="https://siddhi.io/en/v5.0/docs/query-guide/#function">(Function)</a>*
 
 <p style="word-wrap: break-word">This method returns the input subsequence captured by the given group during the previous match operation.</p>
 
@@ -130,7 +130,7 @@ from InputStream select inputSequence, regex:group(\d\d(.*)(WSO2.*), 21 products
 ```
 <p style="word-wrap: break-word">This function returns 'WSO2 employees', the input subsequence captured within the given groupID, 3 after grouping the 'inputSequence' according to the regex pattern, \d\d(.*)(WSO2.*). </p>
 
-### lookingAt *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#function">(Function)</a>*
+### lookingAt *<a target="_blank" href="https://siddhi.io/en/v5.0/docs/query-guide/#function">(Function)</a>*
 
 <p style="word-wrap: break-word">This method attempts to match the 'inputSequence', from the beginning, against the 'regex' pattern.</p>
 
@@ -184,7 +184,7 @@ from InputStream select inputSequence, regex:lookingAt(WSO2(.*)middleware(.*), s
 ```
 <p style="word-wrap: break-word">This method attempts to match the 'inputSequence' against the regex pattern, WSO2(.*)middleware(.*) from the beginning. Since it does not match, the function returns false.</p>
 
-### matches *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#function">(Function)</a>*
+### matches *<a target="_blank" href="https://siddhi.io/en/v5.0/docs/query-guide/#function">(Function)</a>*
 
 <p style="word-wrap: break-word">This method attempts to match the entire 'inputSequence' against the 'regex' pattern.</p>
 
