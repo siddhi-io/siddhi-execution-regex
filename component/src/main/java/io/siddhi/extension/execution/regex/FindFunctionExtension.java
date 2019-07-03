@@ -21,6 +21,7 @@ package io.siddhi.extension.execution.regex;
 import io.siddhi.annotation.Example;
 import io.siddhi.annotation.Extension;
 import io.siddhi.annotation.Parameter;
+import io.siddhi.annotation.ParameterOverload;
 import io.siddhi.annotation.ReturnAttribute;
 import io.siddhi.annotation.util.DataType;
 import io.siddhi.core.config.SiddhiQueryContext;
@@ -41,6 +42,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Class representing the Regex Find implementation.
+ *
  * find(regex, input.sequence)
  * find(regex, input.sequence, starting.index)
  * These methods attempts to find the next sub-sequence of the 'inputSequence' that matches the 'regex' pattern.
@@ -56,10 +59,6 @@ import java.util.regex.Pattern;
  * starting.index : INT
  * Return Type(s): BOOLEAN
  */
-
-/**
- * Class representing the Regex Find implementation.
- */
 @Extension(
         name = "find",
         namespace = "regex",
@@ -68,18 +67,25 @@ import java.util.regex.Pattern;
                 @Parameter(name = "regex",
                         description = "A regular expression that is matched to a sequence in order " +
                                 "to find the subsequence of the same. For example, `\\d\\d(.*)WSO2`.",
-                        type = {DataType.STRING}),
+                        type = {DataType.STRING},
+                        dynamic = true),
                 @Parameter(name = "input.sequence",
                         description = "The input sequence to be matched with the regular expression. "
                                 + "For example, `21 products are produced by WSO2`.",
-                        type = {DataType.STRING}),
+                        type = {DataType.STRING},
+                        dynamic = true),
                 @Parameter(name = "starting.index",
                         description = "The starting index of the input sequence from where the input sequence is" +
                                 "matched with the given regex pattern."
                                 + "For example, `10`.",
                         type = {DataType.INT},
                         optional = true,
+                        dynamic = true,
                         defaultValue = "0")
+        },
+        parameterOverloads = {
+                @ParameterOverload(parameterNames = {"regex", "input.sequence"}),
+                @ParameterOverload(parameterNames = {"regex", "input.sequence", "starting.index"})
         },
         returnAttributes = @ReturnAttribute(
                 description = "Returns `true` if a matching subsequence is available in the input.sequence, " +
