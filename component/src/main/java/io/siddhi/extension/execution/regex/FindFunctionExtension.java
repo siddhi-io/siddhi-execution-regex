@@ -94,7 +94,7 @@ import java.util.regex.Pattern;
         examples = {
                 @Example(
                         syntax = "regex:find('\\d\\d(.*)WSO2', " +
-                                "'21 products are produced by WSO2 currently') as aboutWSO2)",
+                                "'21 products are produced by WSO2 currently')",
                         description = "This method attempts to find the subsequence of the input.sequence " +
                                 "that matches the regex pattern, `\\d\\d(.*)WSO2`. It returns `true` " +
                                 "as a subsequence exists."
