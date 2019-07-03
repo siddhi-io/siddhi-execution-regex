@@ -21,6 +21,7 @@ package io.siddhi.extension.execution.regex;
 import io.siddhi.annotation.Example;
 import io.siddhi.annotation.Extension;
 import io.siddhi.annotation.Parameter;
+import io.siddhi.annotation.ParameterOverload;
 import io.siddhi.annotation.ReturnAttribute;
 import io.siddhi.annotation.util.DataType;
 import io.siddhi.core.config.SiddhiQueryContext;
@@ -40,6 +41,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Class representing the Regex Group implementation.
+ *
  * group(regex, input.sequence, group.id)
  * This method returns the input sub-sequence captured by the given group during the previous match operation.
  * regex - regular expression. eg: "\d\d(.*)WSO2"
@@ -51,10 +54,6 @@ import java.util.regex.Pattern;
  * group.id : INT
  * Return Type(s): STRING
  */
-
-/**
- * Class representing the Regex Group implementation.
- */
 @Extension(
         name = "group",
         namespace = "regex",
@@ -63,14 +62,20 @@ import java.util.regex.Pattern;
         parameters = {
                 @Parameter(name = "regex",
                         description = "A regular expression. For example, `\\d\\d(.*)WSO2.`",
-                        type = {DataType.STRING}),
+                        type = {DataType.STRING},
+                        dynamic = true),
                 @Parameter(name = "input.sequence",
                         description = "The input sequence to be matched with the regular expression. "
                                 + "For example, 2`1 products are produced by WSO2`.",
-                        type = {DataType.STRING}),
+                        type = {DataType.STRING},
+                        dynamic = true),
                 @Parameter(name = "group.id",
                         description = "The given group id of the regex expression. For example, `2`.",
-                        type = {DataType.INT})
+                        type = {DataType.INT},
+                        dynamic = true)
+        },
+        parameterOverloads = {
+                @ParameterOverload(parameterNames = {"regex", "input.sequence", "group.id"})
         },
         returnAttributes = @ReturnAttribute(
                 description = "The string matching the regex group.",
