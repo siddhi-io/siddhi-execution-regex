@@ -52,7 +52,7 @@
 <span id="examples" class="md-typeset" style="display: block; font-weight: bold;">Examples</span>
 <span id="example-1" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 1</span>
 ```
-regex:find('\d\d(.*)WSO2', '21 products are produced by WSO2 currently') as aboutWSO2)
+regex:find('\d\d(.*)WSO2', '21 products are produced by WSO2 currently')
 ```
 <p style="word-wrap: break-word">This method attempts to find the subsequence of the input.sequence that matches the regex pattern, <code>\d\d(.*)WSO2</code>. It returns <code>true</code> as a subsequence exists.</p>
 
