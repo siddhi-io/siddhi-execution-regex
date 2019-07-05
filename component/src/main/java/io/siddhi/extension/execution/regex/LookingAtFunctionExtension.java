@@ -57,7 +57,7 @@ import java.util.regex.Pattern;
 @Extension(
         name = "lookingAt",
         namespace = "regex",
-        description = "Match the input.sequence from the beginning against the regex pattern, " +
+        description = "Matches the input.sequence from the beginning against the regex pattern, " +
                 "and unlike `regex:matches() it does not require that the entire input.sequence be matched.`",
         parameters = {
                 @Parameter(name = "regex",
