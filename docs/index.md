@@ -2,8 +2,8 @@ Siddhi Execution Regex
 ======================================
 
   [![Jenkins Build Status](https://wso2.org/jenkins/job/siddhi/job/siddhi-execution-regex/badge/icon)](https://wso2.org/jenkins/job/siddhi/job/siddhi-execution-regex/)
-  [![GitHub (pre-)Release](https://img.shields.io/github/release/siddhi-io/siddhi-execution-regex/all.svg)](https://github.com/siddhi-io/siddhi-execution-regex/releases)
-  [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/siddhi-io/siddhi-execution-regex.svg)](https://github.com/siddhi-io/siddhi-execution-regex/releases)
+  [![GitHub Release](https://img.shields.io/github/release/siddhi-io/siddhi-execution-regex.svg)](https://github.com/siddhi-io/siddhi-execution-regex/releases)
+  [![GitHub Release Date](https://img.shields.io/github/release-date/siddhi-io/siddhi-execution-regex.svg)](https://github.com/siddhi-io/siddhi-execution-regex/releases)
   [![GitHub Open Issues](https://img.shields.io/github/issues-raw/siddhi-io/siddhi-execution-regex.svg)](https://github.com/siddhi-io/siddhi-execution-regex/issues)
   [![GitHub Last Commit](https://img.shields.io/github/last-commit/siddhi-io/siddhi-execution-regex.svg)](https://github.com/siddhi-io/siddhi-execution-regex/commits/master)
   [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -19,14 +19,14 @@ For information on <a target="_blank" href="https://siddhi.io/">Siddhi</a> and i
 
 ## Latest API Docs 
 
-Latest API Docs is <a target="_blank" href="https://siddhi-io.github.io/siddhi-execution-regex/api/5.0.4">5.0.4</a>.
+Latest API Docs is <a target="_blank" href="https://siddhi-io.github.io/siddhi-execution-regex/api/5.0.5">5.0.5</a>.
 
 ## Features
 
-* <a target="_blank" href="https://siddhi-io.github.io/siddhi-execution-regex/api/5.0.4/#find-function">find</a> *(<a target="_blank" href="http://siddhi.io/en/v5.0/docs/query-guide/#function">Function</a>)*<br> <div style="padding-left: 1em;"><p>Finds the subsequence that matches the given regex pattern.</p></div>
-* <a target="_blank" href="https://siddhi-io.github.io/siddhi-execution-regex/api/5.0.4/#group-function">group</a> *(<a target="_blank" href="http://siddhi.io/en/v5.0/docs/query-guide/#function">Function</a>)*<br> <div style="padding-left: 1em;"><p>Returns the subsequence captured by the given group during the regex match operation.</p></div>
-* <a target="_blank" href="https://siddhi-io.github.io/siddhi-execution-regex/api/5.0.4/#lookingat-function">lookingAt</a> *(<a target="_blank" href="http://siddhi.io/en/v5.0/docs/query-guide/#function">Function</a>)*<br> <div style="padding-left: 1em;"><p>Match the input.sequence from the beginning against the regex pattern, and unlike <code>regex:matches() it does not require that the entire input.sequence be matched.</code></p></div>
-* <a target="_blank" href="https://siddhi-io.github.io/siddhi-execution-regex/api/5.0.4/#matches-function">matches</a> *(<a target="_blank" href="http://siddhi.io/en/v5.0/docs/query-guide/#function">Function</a>)*<br> <div style="padding-left: 1em;"><p>Matches the entire input.sequence against the regex pattern.</p></div>
+* <a target="_blank" href="https://siddhi-io.github.io/siddhi-execution-regex/api/5.0.5/#find-function">find</a> *(<a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/#function">Function</a>)*<br> <div style="padding-left: 1em;"><p><p style="word-wrap: break-word;margin: 0;">Finds the subsequence that matches the given regex pattern.</p></p></div>
+* <a target="_blank" href="https://siddhi-io.github.io/siddhi-execution-regex/api/5.0.5/#group-function">group</a> *(<a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/#function">Function</a>)*<br> <div style="padding-left: 1em;"><p><p style="word-wrap: break-word;margin: 0;">Returns the subsequence captured by the given group during the regex match operation.</p></p></div>
+* <a target="_blank" href="https://siddhi-io.github.io/siddhi-execution-regex/api/5.0.5/#lookingat-function">lookingAt</a> *(<a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/#function">Function</a>)*<br> <div style="padding-left: 1em;"><p><p style="word-wrap: break-word;margin: 0;">Matches the input.sequence from the beginning against the regex pattern, and unlike <code>regex:matches() it does not require that the entire input.sequence be matched.</code></p></p></div>
+* <a target="_blank" href="https://siddhi-io.github.io/siddhi-execution-regex/api/5.0.5/#matches-function">matches</a> *(<a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/#function">Function</a>)*<br> <div style="padding-left: 1em;"><p><p style="word-wrap: break-word;margin: 0;">Matches the entire input.sequence against the regex pattern.</p></p></div>
 
 ## Dependencies 
 
