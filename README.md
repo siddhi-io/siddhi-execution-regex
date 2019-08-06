@@ -2,8 +2,8 @@ Siddhi Execution Regex
 ======================================
 
   [![Jenkins Build Status](https://wso2.org/jenkins/job/siddhi/job/siddhi-execution-regex/badge/icon)](https://wso2.org/jenkins/job/siddhi/job/siddhi-execution-regex/)
-  [![GitHub (pre-)Release](https://img.shields.io/github/release/siddhi-io/siddhi-execution-regex/all.svg)](https://github.com/siddhi-io/siddhi-execution-regex/releases)
-  [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/siddhi-io/siddhi-execution-regex.svg)](https://github.com/siddhi-io/siddhi-execution-regex/releases)
+  [![GitHub Release](https://img.shields.io/github/release/siddhi-io/siddhi-execution-regex.svg)](https://github.com/siddhi-io/siddhi-execution-regex/releases)
+  [![GitHub Release Date](https://img.shields.io/github/release-date/siddhi-io/siddhi-execution-regex.svg)](https://github.com/siddhi-io/siddhi-execution-regex/releases)
   [![GitHub Open Issues](https://img.shields.io/github/issues-raw/siddhi-io/siddhi-execution-regex.svg)](https://github.com/siddhi-io/siddhi-execution-regex/issues)
   [![GitHub Last Commit](https://img.shields.io/github/last-commit/siddhi-io/siddhi-execution-regex.svg)](https://github.com/siddhi-io/siddhi-execution-regex/commits/master)
   [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
