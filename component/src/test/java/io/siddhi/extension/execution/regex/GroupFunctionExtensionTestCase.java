@@ -22,11 +22,12 @@ import io.siddhi.core.SiddhiAppRuntime;
 import io.siddhi.core.SiddhiManager;
 import io.siddhi.core.exception.SiddhiAppCreationException;
 import io.siddhi.core.stream.input.InputHandler;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.annotations.Test;
 
 public class GroupFunctionExtensionTestCase {
-    private static final Logger log = Logger.getLogger(GroupFunctionExtensionTestCase.class);
+    private static final Logger log = LogManager.getLogger(GroupFunctionExtensionTestCase.class);
 
     @Test (expectedExceptions = SiddhiAppCreationException.class)
     public void testGroupFunctionExtension1() throws InterruptedException {
