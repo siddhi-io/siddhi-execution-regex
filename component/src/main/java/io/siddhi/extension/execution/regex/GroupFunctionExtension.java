@@ -93,6 +93,7 @@ import java.util.regex.Pattern;
 )
 public class GroupFunctionExtension extends FunctionExecutor<GroupFunctionExtension.ExtensionState> {
     private Attribute.Type returnType = Attribute.Type.STRING;
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected StateFactory<ExtensionState> init(ExpressionExecutor[] attributeExpressionExecutors,

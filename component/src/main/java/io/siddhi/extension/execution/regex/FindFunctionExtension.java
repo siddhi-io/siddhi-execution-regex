@@ -34,7 +34,8 @@ import io.siddhi.core.util.snapshot.state.State;
 import io.siddhi.core.util.snapshot.state.StateFactory;
 import io.siddhi.query.api.definition.Attribute;
 import io.siddhi.query.api.exception.SiddhiAppValidationException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -108,8 +109,9 @@ import java.util.regex.Pattern;
         }
 )
 public class FindFunctionExtension extends FunctionExecutor<FindFunctionExtension.ExtensionState> {
-    private static final Logger log = Logger.getLogger(FindFunctionExtension.class);
+    private static final Logger log = LogManager.getLogger(FindFunctionExtension.class);
     private Attribute.Type returnType = Attribute.Type.BOOL;
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected StateFactory<ExtensionState> init(ExpressionExecutor[] attributeExpressionExecutors,
